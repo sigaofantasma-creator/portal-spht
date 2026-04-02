@@ -53,7 +53,7 @@ body {
   position: absolute;
   width: 12px;
   height: 12px;
-  background: rgba(150,100,255,0.8);
+  background: rgba(160,120,255,0.9);
   border-radius: 50%;
   top: 38%;
   right: 16%;
@@ -80,12 +80,12 @@ p {
   opacity: 0.75;
 }
 
-/* botão */
+/* BOTÃO COM BORDA VIOLETA */
 button {
   margin-top: 40px;
   padding: 14px 32px;
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(160,120,255,0.6);
   color: white;
   cursor: pointer;
   transition: 0.3s;
@@ -94,6 +94,8 @@ button {
 button:hover {
   transform: scale(1.07);
   letter-spacing: 3px;
+  border-color: rgba(200,170,255,1);
+  box-shadow: 0 0 12px rgba(160,120,255,0.4);
 }
 
 /* resultado */
@@ -109,13 +111,6 @@ button:hover {
   margin-top: 15px;
   opacity: 0.7;
   font-size: 14px;
-}
-
-/* contador */
-.contador {
-  margin-top: 20px;
-  font-size: 13px;
-  opacity: 0.6;
 }
 
 /* mobile */
@@ -160,7 +155,6 @@ Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toqu
 <button onclick="invocar()">INVOCAR DESCONTO</button>
 
 <div id="resultado"></div>
-<div class="contador" id="contador"></div>
 
 </div>
 
@@ -178,19 +172,9 @@ document.body.addEventListener("click", () => {
   som.play();
 }, { once: true });
 
-// contador diário
-const hoje = new Date().toDateString();
-let vistos = localStorage.getItem("vistos-"+hoje);
-
-if(!vistos){
-  vistos = Math.floor(Math.random()*30)+10;
-}
-
-document.getElementById("contador").innerText =
-  vistos + " pessoas já foram contempladas hoje";
-
 function invocar(){
 
+const hoje = new Date().toDateString();
 const resultado = document.getElementById("resultado");
 
 if(localStorage.getItem("usou")===hoje){
@@ -206,9 +190,6 @@ const chance = Math.random();
 if(chance<0.6){
 
   const cupom = "SPHT20-" + Math.floor(1000+Math.random()*9000);
-
-  vistos++;
-  localStorage.setItem("vistos-"+hoje,vistos);
 
   resultado.style.opacity=1;
   resultado.innerHTML=
