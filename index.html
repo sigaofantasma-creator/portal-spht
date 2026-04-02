@@ -1,110 +1,162 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Portal SPHT</title>
+<meta charset="UTF-8">
+<title>Portal SPHT</title>
 
-  <style>
-    body {
-      background: black;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 100px;
-    }
+<style>
 
-    h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
+body {
+  margin: 0;
+  background: url('https://images.unsplash.com/photo-1501139083538-0139583c060f') no-repeat center center fixed;
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+}
 
-    p {
-      opacity: 0.7;
-    }
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.95) 100%);
+  z-index: -1;
+}
 
-    button {
-      margin-top: 30px;
-      padding: 15px 30px;
-      font-size: 18px;
-      background: transparent;
-      border: 1px solid white;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+.container {
+  margin-top: 120px;
+}
 
-    button:hover {
-      background: white;
-      color: black;
-    }
+h1 {
+  font-size: 36px;
+  letter-spacing: 2px;
+  animation: glitch 2s infinite;
+}
 
-    #resultado {
-      margin-top: 40px;
-      font-size: 18px;
-      line-height: 1.6;
-    }
-  </style>
+p {
+  opacity: 0.7;
+}
+
+button {
+  margin-top: 40px;
+  padding: 15px 35px;
+  font-size: 18px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  box-shadow: 0 0 25px rgba(255,255,255,0.4);
+  border-color: white;
+}
+
+#resultado {
+  margin-top: 50px;
+  font-size: 18px;
+  line-height: 1.6;
+  animation: fade 1.5s;
+}
+
+@keyframes fade {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+
+@keyframes glitch {
+  0% {text-shadow: 2px 2px red;}
+  20% {text-shadow: -2px -2px blue;}
+  40% {text-shadow: 2px -2px purple;}
+  60% {text-shadow: -2px 2px cyan;}
+  80% {text-shadow: 2px 2px white;}
+  100% {text-shadow: none;}
+}
+
+</style>
 </head>
 
 <body>
 
-  <h1>👁️ Portal SPHT</h1>
-  <p>Apenas alguns conseguem atravessar...</p>
+<div class="overlay"></div>
 
-  <button onclick="invocar()">Invocar desconto</button>
+<div class="container">
+  <h1>👁️ O Portal Está Observando</h1>
+  <p>Nem todos recebem uma resposta.</p>
+
+  <button onclick="invocar()">Invocar</button>
 
   <div id="resultado"></div>
+</div>
 
-  <script>
+<script>
 
-    function invocar() {
+function invocar() {
 
-      const hoje = new Date().toDateString();
+  const hoje = new Date().toDateString();
 
-      // 1 tentativa por dia
-      if (localStorage.getItem("usou") === hoje) {
+  if (localStorage.getItem("usou") === hoje) {
+    document.getElementById("resultado").innerHTML =
+      "💀 Você já atravessou hoje. O portal não responde duas vezes.";
+    return;
+  }
+
+  localStorage.setItem("usou", hoje);
+
+  const chance = Math.random();
+
+  if (chance < 0.6) {
+
+    const cupom = "SPHT20-" + Math.floor(1000 + Math.random() * 9000);
+    let tempo = 300;
+
+    const mensagens = [
+      "👁️ Você foi observado… e escolhido.",
+      "🕯️ Algo em você chamou o portal.",
+      "🔮 Nem todos chegam até aqui…",
+      "🌒 O invisível decidiu te revelar algo.",
+      "⚠️ Isso não deveria acontecer."
+    ];
+
+    const msg = mensagens[Math.floor(Math.random() * mensagens.length)];
+
+    document.getElementById("resultado").innerHTML =
+      `${msg}<br><br>
+       Um fragmento foi revelado:<br><br>
+       <strong>${cupom}</strong><br><br>
+       ⏳ Desaparece em <span id="tempo">${tempo}</span>s`;
+
+    const timer = setInterval(() => {
+      tempo--;
+      document.getElementById("tempo").innerText = tempo;
+
+      if (tempo <= 0) {
+        clearInterval(timer);
         document.getElementById("resultado").innerHTML =
-          "💀 Você já atravessou o portal hoje.";
-        return;
+          "💀 O portal se fechou. O que foi revelado… se perdeu.";
       }
+    }, 1000);
 
-      localStorage.setItem("usou", hoje);
+  } else {
 
-      const chance = Math.random();
+    const erros = [
+      "🌫️ O portal te rejeitou.",
+      "💀 Ainda não é a sua hora.",
+      "👁️ Você chegou perto… mas não o suficiente.",
+      "🕳️ Algo te impediu de atravessar.",
+      "🔒 O acesso foi negado."
+    ];
 
-      // 60% de chance
-      if (chance < 0.6) {
+    const msgErro = erros[Math.floor(Math.random() * erros.length)];
 
-        const cupom = "SPHT20-" + Math.floor(1000 + Math.random() * 9000);
-        let tempo = 300;
+    document.getElementById("resultado").innerHTML = msgErro;
 
-        document.getElementById("resultado").innerHTML =
-          `👁️ Você foi escolhido...<br><br>
-           O portal revelou um fragmento escondido.<br><br>
-           <strong>${cupom}</strong><br>
-           <br>⏳ Este código desaparecerá em <span id="tempo">${tempo}</span>s`;
+  }
 
-        const timer = setInterval(() => {
-          tempo--;
-          document.getElementById("tempo").innerText = tempo;
+}
 
-          if (tempo <= 0) {
-            clearInterval(timer);
-            document.getElementById("resultado").innerHTML =
-              "💀 O portal se fechou. O fragmento foi perdido.";
-          }
-        }, 1000);
-
-      } else {
-
-        document.getElementById("resultado").innerHTML =
-          "🌫️ O portal te rejeitou hoje... volte amanhã.";
-
-      }
-
-    }
-
-  </script>
+</script>
 
 </body>
 </html>
