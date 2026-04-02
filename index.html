@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal SPHT</title>
+<title>Portal SPHT Cinemático</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -23,8 +23,6 @@ body {
   height: 100%;
   background: radial-gradient(circle at bottom, rgba(120,80,255,0.08), black 70%);
   z-index: -3;
-  opacity: 0;
-  transition: opacity 1s;
 }
 
 /* OVERLAY */
@@ -34,8 +32,6 @@ body {
   height: 100%;
   background: linear-gradient(90deg, black 55%, rgba(0,0,0,0.2));
   z-index: -2;
-  opacity: 0;
-  transition: opacity 1s;
 }
 
 /* PERSONAGEM */
@@ -52,8 +48,10 @@ body {
 .container {
   padding: 140px 80px;
   max-width: 520px;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 1s;
+  position: relative;
+  z-index: 1;
 }
 
 /* TÍTULO */
@@ -102,9 +100,7 @@ button:hover { transform: scale(1.08); letter-spacing: 3px; border-color: rgba(2
 }
 
 /* TREMOR */
-.tremor {
-  animation: tremor 0.05s infinite;
-}
+.tremor { animation: tremor 0.05s infinite; }
 @keyframes tremor {
   0% { transform: translate(0,0) }
   25% { transform: translate(-2px,2px) }
@@ -121,7 +117,7 @@ button:hover { transform: scale(1.08); letter-spacing: 3px; border-color: rgba(2
   background: rgba(255,0,255,0.15);
   top: 0; left: 0;
   pointer-events: none;
-  z-index: 999;
+  z-index: 5;
   mix-blend-mode: screen;
   opacity: 0;
   transition: opacity 0.05s;
@@ -141,8 +137,7 @@ button:hover { transform: scale(1.08); letter-spacing: 3px; border-color: rgba(2
   text-align: center;
   font-size: 36px;
   padding: 20px;
-  opacity: 0;
-  transition: opacity 1s;
+  opacity: 1;
 }
 
 /* MOBILE */
@@ -191,9 +186,9 @@ document.body.addEventListener("click", () => {
   som.play();
 }, { once: true });
 
-// CICLO PORTAL ABERTO / FECHADO (5 min cada)
-const tempoAberto = 5*60; 
-const tempoFechado = 5*60; 
+// CICLO PORTAL ABERTO / FECHADO
+const tempoAberto = 5*60;
+const tempoFechado = 5*60;
 let portalAberto = false;
 
 function alternarPortal() {
@@ -202,13 +197,12 @@ function alternarPortal() {
   const portalF = document.getElementById('portal-fechado');
 
   if(portalAberto){
-    portalA.style.display = 'block'; portalF.style.display = 'none';
-    setTimeout(()=> portalA.style.opacity=1,50);
+    portalA.style.display='block';
+    portalF.style.display='none';
     iniciarContador(tempoAberto);
   } else {
-    portalA.style.opacity = 0; portalF.style.display = 'flex';
-    setTimeout(()=> portalF.style.opacity=1,50);
     portalA.style.display='none';
+    portalF.style.display='flex';
   }
 }
 setInterval(alternarPortal,(tempoAberto+tempoFechado)*1000);
@@ -234,8 +228,9 @@ function iniciarContador(segundos){
       if(t===10) alerta.play();
     } else {
       contadorEl.classList.remove('glitch','tremor');
-      personagem.style.transform=''; personagem.style.filter='';
-      flash.style.opacity = 0;
+      personagem.style.transform='';
+      personagem.style.filter='';
+      flash.style.opacity=0;
     }
 
     t--; if(t<0){ clearInterval(intervalo); contadorEl.classList.remove('glitch','tremor'); personagem.style.transform=''; personagem.style.filter=''; flash.style.opacity=0; }
