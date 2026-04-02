@@ -5,6 +5,7 @@
 <title>Portal SPHT</title>
 
 <style>
+
 body {
   margin: 0;
   background: black;
@@ -13,14 +14,14 @@ body {
   overflow: hidden;
 }
 
-/* silhueta SP bem sutil */
+/* silhueta São Paulo (sutil) */
 .bg-sp {
   position: fixed;
   width: 100%;
   height: 100%;
   background: url('https://upload.wikimedia.org/wikipedia/commons/6/6d/Sao_Paulo_skyline_silhouette.png') no-repeat center bottom;
   background-size: contain;
-  opacity: 0.03;
+  opacity: 0.05;
   z-index: -2;
 }
 
@@ -30,7 +31,8 @@ body {
   right: 0;
   bottom: 0;
   height: 100%;
-  opacity: 0.85;
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 /* conteúdo */
@@ -46,7 +48,7 @@ h1 {
   font-weight: normal;
 }
 
-/* texto */
+/* subtítulo */
 p {
   opacity: 0.5;
   font-size: 15px;
@@ -62,7 +64,7 @@ button {
   border: 1px solid rgba(255,255,255,0.2);
   color: white;
   cursor: pointer;
-  transition: 0.4s;
+  transition: all 0.4s ease;
 }
 
 button:hover {
@@ -78,6 +80,7 @@ button:hover {
   opacity: 0;
   transition: opacity 1s;
 }
+
 </style>
 </head>
 
@@ -85,7 +88,7 @@ button:hover {
 
 <div class="bg-sp"></div>
 
-<!-- IMPORTANTE: nome do arquivo da sua imagem -->
+<!-- PERSONAGEM COM NOME CORRETO -->
 <img src="SPHTFantasmaAngelo_Divulgação001.jpg" class="personagem">
 
 <div class="container">
