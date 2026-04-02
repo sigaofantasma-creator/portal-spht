@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-
 body {
   margin: 0;
   background: black;
@@ -17,7 +16,6 @@ body {
   overflow-x: hidden;
 }
 
-/* FUNDO */
 .bg {
   position: fixed;
   width: 100%;
@@ -26,7 +24,6 @@ body {
   z-index: -3;
 }
 
-/* OVERLAY */
 .overlay {
   position: fixed;
   width: 100%;
@@ -35,7 +32,6 @@ body {
   z-index: -2;
 }
 
-/* PERSONAGEM */
 .personagem {
   position: fixed;
   right: 0;
@@ -51,13 +47,11 @@ body {
   100% { transform: scale(1); }
 }
 
-/* CONTEÚDO */
 .container {
   padding: 140px 80px;
   max-width: 520px;
 }
 
-/* TÍTULO */
 h1 {
   font-family: 'Heebo', sans-serif;
   font-size: 40px;
@@ -65,7 +59,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* TEXTO */
 p {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
@@ -73,8 +66,7 @@ p {
   line-height: 1.6;
 }
 
-/* CONTADOR */
-#contador {
+#contador, #contadorFechado {
   font-family: 'Heebo', sans-serif;
   font-size: 28px;
   margin: 20px 0;
@@ -83,7 +75,6 @@ p {
   transition: all 0.2s ease-in-out;
 }
 
-/* EFEITO GLITCH */
 .glitch {
   color: #ff77ff;
   text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
@@ -99,7 +90,6 @@ p {
   100% { transform: translate(0,0); }
 }
 
-/* BOTÃO */
 button {
   margin-top: 30px;
   padding: 12px 28px;
@@ -116,7 +106,7 @@ button {
 @keyframes pulso {
   0% { box-shadow: 0 0 0 rgba(170,120,255,0); }
   50% { box-shadow: 0 0 20px rgba(170,120,255,0.3); }
-  100% { box-shadow: 0 0 0 rgba(170,120,255,0); }
+ 100% { box-shadow: 0 0 0 rgba(170,120,255,0); }
 }
 
 button:hover {
@@ -125,7 +115,6 @@ button:hover {
   border-color: rgba(200,170,255,1);
 }
 
-/* RESULTADO */
 #resultado {
   margin-top: 40px;
   opacity: 0;
@@ -139,39 +128,34 @@ button:hover {
   font-size: 14px;
 }
 
-/* MOBILE */
 @media (max-width:768px){
+  .personagem {
+    position: relative;
+    width: 100%;
+    height: auto;
+    opacity: 1;
+  }
 
-.personagem {
-  position: relative;
-  width: 100%;
-  height: auto;
-  opacity: 1;
+  .container {
+    padding: 30px 20px;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(6px);
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  #contador, #contadorFechado {
+    font-size: 22px;
+  }
 }
-
-.container {
-  padding: 30px 20px;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(6px);
-}
-
-h1 {
-  font-size: 28px;
-}
-
-button {
-  width: 100%;
-}
-
-#contador {
-  font-size: 22px;
-}
-
-}
-
 </style>
 </head>
-
 <body>
 
 <div class="bg"></div>
@@ -180,19 +164,11 @@ button {
 <img src="personagem.jpg" class="personagem">
 
 <div class="container" id="portalAberto">
-
 <h1>A CIDADE OBSERVA</h1>
-
-<p>
-Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.
-</p>
-
+<p>Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
 <div id="contador"></div>
-
 <button onclick="invocar()">INVOCAR DESCONTO</button>
-
 <div id="resultado"></div>
-
 </div>
 
 <div class="container" id="portalFechado" style="display:none; text-align:center; padding-top:200px;">
@@ -206,7 +182,6 @@ Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toqu
 </audio>
 
 <script>
-
 // SOM
 document.body.addEventListener("click", () => {
   const som = document.getElementById("som");
@@ -214,11 +189,10 @@ document.body.addEventListener("click", () => {
   som.play();
 }, { once: true });
 
-// CONFIGURAÇÃO DE TEMPO
-let portalAberto = true; // começa aberto
-let duracaoAberto = 5*60; // 5 minutos em segundos
-let duracaoFechado = 5*60; // 5 minutos fechado
-let contadorAtual = duracaoAberto;
+// TEMPO FIXO DE CICLO
+const cicloAberto = 5*60; // 5 minutos aberto
+const cicloFechado = 5*60; // 5 minutos fechado
+const cicloTotal = cicloAberto + cicloFechado;
 
 // ELEMENTOS
 const contador = document.getElementById("contador");
@@ -233,40 +207,33 @@ function formatarTempo(segundos){
   return `${m}:${s}`;
 }
 
-// ATUALIZA CONTADOR
-function atualizarContador(){
-  if(portalAberto){
-    contador.innerText = formatarTempo(contadorAtual);
-    if(contadorAtual<=10){
-      contador.classList.add("glitch");
-    } else {
-      contador.classList.remove("glitch");
-    }
+// ATUALIZA PORTAL E CONTADOR
+function atualizarPortal(){
+  const agora = Date.now();
+  // Tempo absoluto baseado em epoch em segundos
+  const segundosTotais = Math.floor(agora/1000);
+  const cicloAtual = segundosTotais % cicloTotal;
+  const aberto = cicloAtual < cicloAberto;
+  const restante = aberto ? cicloAberto - cicloAtual : cicloTotal - cicloAtual;
+
+  portalAbertoDiv.style.display = aberto ? "block" : "none";
+  portalFechadoDiv.style.display = aberto ? "none" : "block";
+
+  const cont = aberto ? contador : contadorFechado;
+  cont.innerText = formatarTempo(restante);
+
+  if(restante <= 10){
+    cont.classList.add("glitch");
   } else {
-    contadorFechado.innerText = formatarTempo(contadorAtual);
-    if(contadorAtual<=10){
-      contadorFechado.classList.add("glitch");
-    } else {
-      contadorFechado.classList.remove("glitch");
-    }
+    cont.classList.remove("glitch");
   }
 }
 
-// TIMER PRINCIPAL
-setInterval(()=>{
-  contadorAtual--;
-  if(contadorAtual<0){
-    portalAberto = !portalAberto;
-    contadorAtual = portalAberto ? duracaoAberto : duracaoFechado;
-    portalAbertoDiv.style.display = portalAberto ? "block" : "none";
-    portalFechadoDiv.style.display = portalAberto ? "none" : "block";
-  }
-  atualizarContador();
-}, 1000);
+// ATUALIZA A CADA SEGUNDO
+setInterval(atualizarPortal,1000);
 
 // FUNÇÃO INVOCAR DESCONTO
 function invocar(){
-
 const hoje = new Date().toDateString();
 const resultado = document.getElementById("resultado");
 
@@ -283,8 +250,7 @@ if(localStorage.getItem("usou")===hoje){
 
 localStorage.setItem("usou",hoje);
 
-if(Math.random()<0.3){ // dificuldade inicial: 30% de chance
-
+if(Math.random()<0.3){ // 30% chance de sucesso inicial
   const cupom = "SPHT20-" + Math.floor(1000+Math.random()*9000);
 
   resultado.style.opacity=1;
@@ -297,18 +263,14 @@ if(Math.random()<0.3){ // dificuldade inicial: 30% de chance
   <br>
   <button onclick="abrirWhats('${cupom}')">CHAMAR NO WHATSAPP</button>
   `;
-
 }else{
-
   resultado.style.opacity=1;
   resultado.innerHTML=`
   Nenhum contato com o além!
   <div class="extra">
   Dentro de 24 horas poderá tentar novamente!
   </div>`;
-
 }
-
 }
 
 function abrirWhats(cupom){
