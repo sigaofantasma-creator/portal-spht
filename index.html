@@ -64,28 +64,27 @@ h1 {
   font-size: 40px;
   letter-spacing: 2px;
   margin-bottom: 20px;
-  word-break: break-word;
 }
 
 p {
-  font-family: 'Inter', sans-serif;
   font-size: 16px;
   opacity: 0.8;
   line-height: 1.6;
-  word-break: break-word;
 }
 
-/* CONTADOR */
+/* CONTADOR (CORRIGIDO) */
 #contador, #contadorFechado {
   font-family: 'Heebo', sans-serif;
   font-size: 28px;
   margin: 15px 0 25px 0;
   letter-spacing: 2px;
   color: #d0aaff;
-  transition: all 0.2s ease-in-out;
-  word-break: break-word;
   text-align: center;
   display: block;
+
+  /* 🔥 CORREÇÕES PRINCIPAIS */
+  white-space: nowrap; /* impede quebra vertical */
+  font-variant-numeric: tabular-nums; /* números estáveis */
 }
 
 /* EFEITO GLITCH */
@@ -112,7 +111,6 @@ button {
   border: 1px solid rgba(170,120,255,0.6);
   color: white;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
   letter-spacing: 2px;
   transition: all 0.3s ease;
   animation: pulso 3s infinite;
@@ -142,7 +140,6 @@ button:hover {
   margin-top: 10px;
   opacity: 0.7;
   font-size: 14px;
-  word-break: break-word;
 }
 
 /* MOBILE */
@@ -186,35 +183,27 @@ button:hover {
     min-height: 80vh;
     text-align: center;
   }
+}
 
-  #portalFechado h1 {
-    font-size: 32px;
-    line-height: 1.3;
-    margin-bottom: 15px;
+/* DESKTOP */
+@media (min-width:769px){
+  #contador, #contadorFechado {
+    text-align: left;
+  }
+
+  /* GARANTE ORDEM: TEXTO → CONTADOR */
+  #portalFechado {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   #portalFechado p {
-    font-size: 16px;
-    opacity: 0.85;
-    line-height: 1.4;
     margin-bottom: 10px;
   }
 
   #contadorFechado {
-    margin-top: 0;
-  }
-}
-
-/* DESKTOP: contador horizontal abaixo do texto */
-@media (min-width:769px){
-  #contador, #contadorFechado {
-    text-align: left;
-    margin-bottom: 25px;
-  }
-
-  /* portal fechado: contador abaixo do texto */
-  #portalFechado p + #contadorFechado {
-    margin-top: 15px;
+    margin-top: 10px;
   }
 }
 </style>
@@ -254,9 +243,9 @@ document.body.addEventListener("click", () => {
   som.play();
 }, { once: true });
 
-// TEMPO FIXO DE CICLO
-const cicloAberto = 5*60; // 5 minutos aberto
-const cicloFechado = 5*60; // 5 minutos fechado
+// TEMPO FIXO
+const cicloAberto = 5*60;
+const cicloFechado = 5*60;
 const cicloTotal = cicloAberto + cicloFechado;
 
 // ELEMENTOS
@@ -265,14 +254,14 @@ const contadorFechado = document.getElementById("contadorFechado");
 const portalAbertoDiv = document.getElementById("portalAberto");
 const portalFechadoDiv = document.getElementById("portalFechado");
 
-// FUNÇÃO PARA FORMATAR TEMPO
+// FORMATAR TEMPO
 function formatarTempo(segundos){
   const m = Math.floor(segundos/60).toString().padStart(2,'0');
   const s = (segundos%60).toString().padStart(2,'0');
   return `${m}:${s}`;
 }
 
-// ATUALIZA PORTAL E CONTADOR
+// ATUALIZA PORTAL
 function atualizarPortal(){
   const agora = Date.now();
   const segundosTotais = Math.floor(agora/1000);
@@ -293,10 +282,9 @@ function atualizarPortal(){
   }
 }
 
-// ATUALIZA A CADA SEGUNDO
 setInterval(atualizarPortal,1000);
 
-// FUNÇÃO INVOCAR DESCONTO
+// INVOCAR
 function invocar(){
 const hoje = new Date().toDateString();
 const resultado = document.getElementById("resultado");
@@ -307,8 +295,7 @@ if(localStorage.getItem("usou")===hoje){
   Você já foi observado hoje.
   <div class="extra">
   Após 24 horas tente novamente!
-  </div>
-  `;
+  </div>`;
   return;
 }
 
@@ -322,11 +309,10 @@ if(Math.random()<0.3){
   Quem diria! Você foi percebido!<br><br>
   <strong>${cupom}</strong>
   <div class="extra">
-  Chame agora no WhatsApp 11 95651 2412! Você ganhou 20% de desconto na compra de seu ingresso - diretamente na agência. Este cupom NÃO é válido para compras efetuadas na Sympla.
+  Chame agora no WhatsApp 11 95651 2412!
   </div>
   <br>
-  <button onclick="abrirWhats('${cupom}')">CHAMAR NO WHATSAPP</button>
-  `;
+  <button onclick="abrirWhats('${cupom}')">CHAMAR NO WHATSAPP</button>`;
 }else{
   resultado.style.opacity=1;
   resultado.innerHTML=`
