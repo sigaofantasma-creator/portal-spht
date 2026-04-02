@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal SPHT</title>
+<title>Portal SPHT Cinemático</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -23,6 +23,8 @@ body {
   height: 100%;
   background: radial-gradient(circle at bottom, rgba(120,80,255,0.08), black 70%);
   z-index: -3;
+  opacity: 0;
+  transition: opacity 1s;
 }
 
 /* OVERLAY */
@@ -32,6 +34,8 @@ body {
   height: 100%;
   background: linear-gradient(90deg, black 55%, rgba(0,0,0,0.2));
   z-index: -2;
+  opacity: 0;
+  transition: opacity 1s;
 }
 
 /* PERSONAGEM */
@@ -41,19 +45,15 @@ body {
   bottom: 0;
   height: 100%;
   opacity: 0.9;
-  animation: respirar 7s ease-in-out infinite;
-}
-
-@keyframes respirar {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.01); }
-  100% { transform: scale(1); }
+  transition: transform 0.1s, filter 0.1s;
 }
 
 /* CONTEÚDO */
 .container {
   padding: 140px 80px;
   max-width: 520px;
+  opacity: 0;
+  transition: opacity 1s;
 }
 
 /* TÍTULO */
@@ -64,10 +64,7 @@ h1 {
 }
 
 /* TEXTO */
-p {
-  opacity: 0.8;
-  line-height: 1.6;
-}
+p { opacity: 0.8; line-height: 1.6; }
 
 /* BOTÃO */
 button {
@@ -82,156 +79,111 @@ button {
   transition: all 0.3s ease;
   animation: pulso 3s infinite;
 }
-
 @keyframes pulso {
   0% { box-shadow: 0 0 0 rgba(170,120,255,0); }
   50% { box-shadow: 0 0 20px rgba(170,120,255,0.3); }
   100% { box-shadow: 0 0 0 rgba(170,120,255,0); }
 }
-
-button:hover {
-  transform: scale(1.08);
-  letter-spacing: 3px;
-  border-color: rgba(200,170,255,1);
-}
+button:hover { transform: scale(1.08); letter-spacing: 3px; border-color: rgba(200,170,255,1); }
 
 /* RESULTADO */
-#resultado {
-  margin-top: 50px;
-  opacity: 0;
-  transition: 1s;
+#resultado { margin-top: 50px; opacity: 0; transition: 1s; }
+.extra { font-style: italic; margin-top: 15px; opacity: 0.7; font-size: 14px; }
+
+/* CONTADOR */
+#contador { font-family: 'Bebas Neue', sans-serif; font-size: 28px; margin-top: 20px; }
+
+/* GLITCH */
+.glitch { color: #ff00ff; text-shadow: 2px 0 #0ff, -2px 0 #0ff; animation: glitchAnim 0.1s infinite; }
+@keyframes glitchAnim {
+  0% { text-shadow: 2px 0 #0ff, -2px 0 #0ff; }
+  50% { text-shadow: -2px 0 #ff0, 2px 0 #0ff; }
+  100% { text-shadow: 2px 0 #0ff, -2px 0 #0ff; }
 }
 
-.extra {
-  font-style: italic;
-  margin-top: 15px;
-  opacity: 0.7;
-  font-size: 14px;
+/* TREMOR */
+.tremor {
+  animation: tremor 0.05s infinite;
+}
+@keyframes tremor {
+  0% { transform: translate(0,0) }
+  25% { transform: translate(-2px,2px) }
+  50% { transform: translate(2px,-2px) }
+  75% { transform: translate(-2px,-2px) }
+  100% { transform: translate(0,0) }
+}
+
+/* FLASHES */
+.flash {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,0,255,0.15);
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 999;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.05s;
 }
 
 /* PORTAL FECHADO */
 #portal-fechado {
   display: none;
-}
-
-#portal-fechado h1 {
+  height: 100vh;
+  width: 100%;
+  background: black;
+  color: white;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 40px;
-  color: #FF66AA;
-  margin-bottom: 20px;
-}
-
-#portal-fechado p {
-  opacity: 0.9;
-  font-size: 16px;
-}
-
-/* CONTADOR E GLITCH */
-.glitch {
-  animation: glitch 0.2s infinite;
-}
-
-@keyframes glitch {
-  0% { transform: translate(0); }
-  25% { transform: translate(-2px, 1px); }
-  50% { transform: translate(2px, -1px); }
-  75% { transform: translate(-1px, 2px); }
-  100% { transform: translate(0); }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 36px;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 1s;
 }
 
 /* MOBILE */
 @media (max-width:768px){
-  .personagem {
-    position: relative;
-    width: 100%;
-    height: auto;
-    opacity: 1;
-  }
-  .container {
-    padding: 30px 20px;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(6px);
-  }
+  .personagem { position: relative; width: 100%; height: auto; opacity: 1; }
+  .container { padding: 30px 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); }
   h1 { font-size: 32px; }
   button { width: 100%; }
+  #contador { font-size: 24px; }
+  #portal-fechado { font-size: 28px; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
-<div class="overlay"></div>
-<img src="personagem.jpg" class="personagem">
-
 <!-- PORTAL ABERTO -->
-<div class="container" id="portal-aberto">
-  <h1 id="mensagem">A CIDADE OBSERVA</h1>
-  <p>
-    Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.
-  </p>
-  <button onclick="invocar()">INVOCAR DESCONTO</button>
-  <div id="resultado"></div>
-  <div id="timer"></div>
+<div id="portal-aberto">
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <img src="personagem.jpg" class="personagem" id="personagem">
+  <div class="container">
+    <h1>A CIDADE OBSERVA</h1>
+    <p>Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
+    <button onclick="invocar()">INVOCAR DESCONTO</button>
+    <div id="resultado"></div>
+    <div id="contador"></div>
+  </div>
 </div>
 
 <!-- PORTAL FECHADO -->
-<div class="container" id="portal-fechado">
-  <h1>PORTAL FECHADO</h1>
-  <p>
-    O portal ainda não abriu ou já se fechou. Volte em breve para tentar sua sorte e invocar o fantasma do SPHT.
-  </p>
-  <div id="timer-fechado"></div>
-</div>
+<div id="portal-fechado">O portal ainda não abriu… Volte em breve e teste sua sorte!</div>
+
+<div class="flash" id="flash"></div>
 
 <audio id="som" loop>
-<source src="https://www.soundjay.com/ambience/city-traffic-1.mp3" type="audio/mpeg">
+  <source src="https://www.soundjay.com/ambience/city-traffic-1.mp3" type="audio/mpeg">
 </audio>
+<audio id="alerta" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
 
 <script>
-const ciclo = 10 * 60; // ciclo de 10 min (5 aberto / 5 fechado)
-
-// FUNÇÃO DE ATUALIZAÇÃO DO PORTAL
-function atualizar() {
-  const agora = Math.floor(Date.now()/1000); // segundos absolutos
-  const fase = agora % ciclo;
-
-  const aberto = fase < ciclo/2;
-  const restante = aberto ? (ciclo/2 - fase) : (ciclo - fase);
-
-  const minutos = Math.floor(restante/60);
-  const segundos = restante % 60;
-
-  const portalAberto = document.getElementById("portal-aberto");
-  const portalFechado = document.getElementById("portal-fechado");
-  const timerAberto = document.getElementById("timer");
-  const timerFechado = document.getElementById("timer-fechado");
-  const mensagem = document.getElementById("mensagem");
-
-  if(aberto){
-    // ABERTO
-    portalAberto.style.display = "block";
-    portalFechado.style.display = "none";
-    timerAberto.innerHTML = `Fecha em ${minutos}:${segundos.toString().padStart(2,'0')}`;
-  } else {
-    // FECHADO
-    portalAberto.style.display = "none";
-    portalFechado.style.display = "block";
-    timerFechado.innerHTML = `Abre em ${minutos}:${segundos.toString().padStart(2,'0')}`;
-  }
-
-  // glitch últimos 10s
-  if(restante <=10){
-    timerAberto.classList.add("glitch");
-    timerFechado.classList.add("glitch");
-    mensagem?.classList.add("glitch");
-  } else {
-    timerAberto.classList.remove("glitch");
-    timerFechado.classList.remove("glitch");
-    mensagem?.classList.remove("glitch");
-  }
-}
-
 // SOM
 document.body.addEventListener("click", () => {
   const som = document.getElementById("som");
@@ -239,49 +191,81 @@ document.body.addEventListener("click", () => {
   som.play();
 }, { once: true });
 
-// FUNÇÃO INVOCAR DESCONTO
+// CICLO PORTAL ABERTO / FECHADO (5 min cada)
+const tempoAberto = 5*60; 
+const tempoFechado = 5*60; 
+let portalAberto = false;
+
+function alternarPortal() {
+  portalAberto = !portalAberto;
+  const portalA = document.getElementById('portal-aberto');
+  const portalF = document.getElementById('portal-fechado');
+
+  if(portalAberto){
+    portalA.style.display = 'block'; portalF.style.display = 'none';
+    setTimeout(()=> portalA.style.opacity=1,50);
+    iniciarContador(tempoAberto);
+  } else {
+    portalA.style.opacity = 0; portalF.style.display = 'flex';
+    setTimeout(()=> portalF.style.opacity=1,50);
+    portalA.style.display='none';
+  }
+}
+setInterval(alternarPortal,(tempoAberto+tempoFechado)*1000);
+alternarPortal();
+
+// CONTADOR COM GLITCH + TREMOR + FLASH
+function iniciarContador(segundos){
+  const contadorEl = document.getElementById("contador");
+  const alerta = document.getElementById("alerta");
+  const personagem = document.getElementById("personagem");
+  const flash = document.getElementById("flash");
+  let t = segundos;
+
+  const intervalo = setInterval(()=>{
+    let min = Math.floor(t/60), seg = t%60;
+    contadorEl.textContent = `${min.toString().padStart(2,'0')}:${seg.toString().padStart(2,'0')}`;
+
+    if(t<=10){
+      contadorEl.classList.add('glitch','tremor');
+      personagem.style.transform = `translate(${Math.random()*4-2}px,${Math.random()*4-2}px)`;
+      personagem.style.filter = `blur(${Math.random()*2}px)`;
+      flash.style.opacity = Math.random()*0.3;
+      if(t===10) alerta.play();
+    } else {
+      contadorEl.classList.remove('glitch','tremor');
+      personagem.style.transform=''; personagem.style.filter='';
+      flash.style.opacity = 0;
+    }
+
+    t--; if(t<0){ clearInterval(intervalo); contadorEl.classList.remove('glitch','tremor'); personagem.style.transform=''; personagem.style.filter=''; flash.style.opacity=0; }
+  },1000);
+}
+
+// CHANCE DE GANHO
+const chanceDeGanhar = 0.3;
 function invocar(){
   const hoje = new Date().toDateString();
   const resultado = document.getElementById("resultado");
-
   if(localStorage.getItem("usou")===hoje){
     resultado.style.opacity=1;
-    resultado.innerHTML = `Você já foi observado hoje.
-      <div class="extra">Dentro de 24 horas poderá tentar novamente!</div>`;
+    resultado.innerHTML=`Você já foi observado hoje.<div class="extra">Dentro de 24 horas tente novamente!</div>`;
     return;
   }
-
   localStorage.setItem("usou",hoje);
-
-  if(Math.random()<0.3){
-    const cupom = "SPHT20-" + Math.floor(1000+Math.random()*9000);
+  if(Math.random()<chanceDeGanhar){
+    const cupom = "SPHT20-"+Math.floor(1000+Math.random()*9000);
     resultado.style.opacity=1;
-    resultado.innerHTML =
-      `Quem diria! Você foi percebido!<br><br>
-      <strong>${cupom}</strong>
-      <div class="extra">
-      Chame agora no WhatsApp 11 95651 2412! Você ganhou 20% de desconto na compra de seu ingresso - e de todos os seus acompanhantes - com pagamento via PIX, diretamente na agência. Este cupom NÃO é válido para compras efetuadas na Sympla.
-      </div>
-      <br>
-      <button onclick="abrirWhats('${cupom}')">CHAMAR NO WHATSAPP</button>`;
+    resultado.innerHTML=`Quem diria! Você foi percebido!<br><br><strong>${cupom}</strong><div class="extra">Chame agora no whats de reservas 11 95651 2412! Você ganhou 20% de desconto na compra de seu ingresso - e de todos os seus acompanhantes - com pagamento via PIX, diretamente na agência. Este cupom NÃO é válido para compras efetuadas na Sympla.</div><br><button onclick="abrirWhats('${cupom}')">CHAMAR NO WHATSAPP</button>`;
   } else {
     resultado.style.opacity=1;
-    resultado.innerHTML =
-      `Nenhum contato com o além!
-      <div class="extra">Dentro de 24 horas poderá tentar novamente!</div>`;
+    resultado.innerHTML=`Nenhum contato com o além!<div class="extra">Dentro de 24 horas poderá tentar novamente!</div>`;
   }
 }
-
 function abrirWhats(cupom){
-  const msg = encodeURIComponent(
-    "Olá! Fui contemplado no portal com o cupom "+cupom+" 👁️"
-  );
+  const msg = encodeURIComponent("Olá! Fui contemplado no portal com o cupom "+cupom+" 👁️");
   window.open("https://wa.me/5511956512412?text="+msg,"_blank");
 }
-
-// ATUALIZAÇÃO A CADA SEGUNDO
-setInterval(atualizar,1000);
-atualizar();
 </script>
 </body>
 </html>
