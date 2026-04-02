@@ -12,10 +12,9 @@ body {
   background: black;
   font-family: Georgia, serif;
   color: white;
-  overflow: hidden;
 }
 
-/* BASE URBANA (simula cidade) */
+/* fundo urbano */
 .bg-sp {
   position: fixed;
   width: 100%;
@@ -24,7 +23,7 @@ body {
   z-index: -3;
 }
 
-/* OVERLAY DE LEITURA (ESSENCIAL) */
+/* overlay leitura */
 .overlay {
   position: fixed;
   width: 100%;
@@ -33,7 +32,7 @@ body {
   z-index: -2;
 }
 
-/* PERSONAGEM */
+/* personagem */
 .personagem {
   position: fixed;
   right: 0;
@@ -43,14 +42,14 @@ body {
   animation: respirar 7s ease-in-out infinite;
 }
 
-/* RESPIRAÇÃO */
+/* respiração */
 @keyframes respirar {
   0% { transform: scale(1); }
   50% { transform: scale(1.01); }
   100% { transform: scale(1); }
 }
 
-/* OLHO (movimento sutil) */
+/* olho */
 .olho {
   position: absolute;
   width: 14px;
@@ -60,7 +59,6 @@ body {
   top: 38%;
   right: 16%;
   animation: olhar 6s infinite;
-  filter: blur(0.5px);
 }
 
 @keyframes olhar {
@@ -71,7 +69,7 @@ body {
   100% { transform: translate(0,0); }
 }
 
-/* CONTEÚDO */
+/* conteúdo */
 .container {
   position: relative;
   z-index: 2;
@@ -85,10 +83,11 @@ h1 {
 }
 
 p {
-  opacity: 0.6;
+  opacity: 0.75;
+  line-height: 1.6;
 }
 
-/* BOTÃO PREMIUM */
+/* botão */
 button {
   margin-top: 40px;
   padding: 14px 32px;
@@ -107,7 +106,7 @@ button:hover {
   border-color: rgba(255,255,255,0.6);
 }
 
-/* RESULTADO */
+/* resultado */
 #resultado {
   margin-top: 50px;
   line-height: 1.8;
@@ -115,30 +114,33 @@ button:hover {
   transition: opacity 1s;
 }
 
-/* MOBILE PERFEITO */
-@media (max-width: 768px) {
+/* texto adicional */
+.extra {
+  margin-top: 15px;
+  font-style: italic;
+  opacity: 0.7;
+  font-size: 14px;
+}
 
-  body {
-    overflow: auto;
-  }
+/* MOBILE */
+@media (max-width: 768px) {
 
   .personagem {
     position: relative;
     width: 100%;
     height: auto;
-    opacity: 0.25;
+    opacity: 1;
   }
 
   .overlay {
-    background: linear-gradient(to bottom, black 60%, rgba(0,0,0,0.3) 100%);
+    background: linear-gradient(to bottom, black 65%, rgba(0,0,0,0.3) 100%);
   }
 
   .container {
-    padding: 40px 20px;
-    margin-top: -120px;
-    background: rgba(0,0,0,0.6);
+    padding: 30px 20px;
+    margin-top: -40px;
+    background: rgba(0,0,0,0.75);
     backdrop-filter: blur(6px);
-    border-top: 1px solid rgba(255,255,255,0.1);
   }
 
   h1 {
@@ -160,12 +162,14 @@ button:hover {
 <div class="overlay"></div>
 
 <img src="personagem.jpg" class="personagem">
-
 <div class="olho"></div>
 
 <div class="container">
   <h1>👁️ A CIDADE OBSERVA</h1>
-  <p id="subtexto">Nem tudo em São Paulo pode ser visto.</p>
+
+  <p id="subtexto">
+    Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe um fantasma te permita ultrapassar.
+  </p>
 
   <button onclick="invocar()">INVOCAR DESCONTO</button>
 
@@ -178,9 +182,6 @@ function invocar() {
 
   const hoje = new Date().toDateString();
   const resultado = document.getElementById("resultado");
-  const subtexto = document.getElementById("subtexto");
-
-  let nivel = parseInt(localStorage.getItem("nivel") || "0");
 
   if (localStorage.getItem("usou") === hoje) {
     resultado.style.opacity = 1;
@@ -195,52 +196,23 @@ function invocar() {
   if (chance < 0.6) {
 
     const cupom = "SPHT20-" + Math.floor(1000 + Math.random() * 9000);
-    let tempo = 300;
-
-    nivel++;
-    localStorage.setItem("nivel", nivel);
-
-    const narrativas = [
-      "Você foi percebido.",
-      "Algo começou a responder.",
-      "Você atravessou mais fundo.",
-      "A cidade começa a te reconhecer.",
-      "Agora você faz parte disso."
-    ];
-
-    const msg = narrativas[Math.min(nivel-1, narrativas.length-1)];
-
-    subtexto.innerText = msg;
 
     resultado.style.opacity = 1;
     resultado.innerHTML =
-      `${msg}<br><br>
-       <strong>${cupom}</strong><br><br>
-       expira em <span id="tempo">${tempo}</span>s`;
-
-    const timer = setInterval(() => {
-      tempo--;
-      document.getElementById("tempo").innerText = tempo;
-
-      if (tempo <= 0) {
-        clearInterval(timer);
-        resultado.innerHTML = "O acesso foi encerrado.";
-      }
-    }, 1000);
+      `Você foi percebido.<br><br>
+       <strong>${cupom}</strong>
+       <div class="extra">
+       chame agora no whats de reservas 11 95651 2412! Você ganhou 20% de desconto na compra de seu ingresso - e de todos os seus acompanhantes - com pagamento via PIX, diretamente na agência. Este cupom de desconto NÃO É VALIDO para compras efetuadas na Sympla.
+       </div>`;
 
   } else {
 
-    const erros = [
-      "Nada respondeu.",
-      "A cidade permaneceu em silêncio.",
-      "Você ainda não está pronto.",
-      "O acesso não foi concedido."
-    ];
-
-    const msgErro = erros[Math.floor(Math.random() * erros.length)];
-
     resultado.style.opacity = 1;
-    resultado.innerHTML = msgErro;
+    resultado.innerHTML =
+      `Nada respondeu.
+       <div class="extra">
+       Dentro de 24 horas poderá tentar novamente!
+       </div>`;
 
   }
 
