@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Portal SPHT</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: Arial;
+      text-align: center;
+      padding-top: 100px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background: transparent;
+      border: 1px solid white;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>👁️ Portal SPHT</h1>
+<p>Apenas alguns conseguem atravessar...</p>
+
+<button onclick="invocar()">Invocar desconto</button>
+
+<div id="resultado" style="margin-top:30px;"></div>
+
+<script>
+
+function invocar() {
+
+  if (localStorage.getItem("usou")) {
+    document.getElementById("resultado").innerHTML =
+      "💀 Você já atravessou o portal.";
+    return;
+  }
+
+  const hora = new Date().getHours();
+  if (hora < 20 && hora > 3) {
+    document.getElementById("resultado").innerHTML =
+      "🌑 O portal só abre à noite.";
+    return;
+  }
+
+  localStorage.setItem("usou", "sim");
+
+  const chance = Math.random();
+
+  if (chance < 0.3) {
+
+    const cupom = "SPHT" + Math.floor(1000 + Math.random()*9000);
+    let tempo = 300;
+
+    document.getElementById("resultado").innerHTML =
+      `👁️ O portal se abriu...<br><br>
+       Cupom: <strong>${cupom}</strong><br>
+       Tempo restante: <span id="tempo">${tempo}</span>s`;
+
+    const timer = setInterval(() => {
+      tempo--;
+      document.getElementById("tempo").innerText = tempo;
+
+      if (tempo <= 0) {
+        clearInterval(timer);
+        document.getElementById("resultado").innerHTML =
+          "💀 O portal se fechou.";
+      }
+    }, 1000);
+
+  } else {
+
+    document.getElementById("resultado").innerHTML =
+      "🌫️ Nada aconteceu... volte outra noite.";
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
