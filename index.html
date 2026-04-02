@@ -3,232 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal SPHT</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<title>SPHT Portal</title>
 
 <style>
-
 body {
   margin: 0;
   background: black;
-  font-family: 'Inter', sans-serif;
   color: white;
-  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
-/* FUNDO */
-.bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at bottom, rgba(120,80,255,0.08), black 70%);
-  z-index: -3;
-}
-
-/* OVERLAY */
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, black 55%, rgba(0,0,0,0.2));
-  z-index: -2;
-}
-
-/* PERSONAGEM */
-.personagem {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  opacity: 0.9;
-  animation: respirar 7s ease-in-out infinite;
-}
-
-@keyframes respirar {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.01); }
-  100% { transform: scale(1); }
-}
-
-/* CONTEÚDO */
+/* container central */
 .container {
-  padding: 140px 80px;
-  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
 }
 
-/* TÍTULO */
-h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 44px;
-  letter-spacing: 6px;
-}
-
-/* TEXTO */
-p {
-  opacity: 0.8;
-  line-height: 1.6;
-}
-
-/* BOTÃO */
-button {
-  margin-top: 40px;
-  padding: 14px 32px;
+/* botão portal */
+.portal-btn {
+  margin-top: 20px;
+  padding: 15px 25px;
   background: transparent;
-  border: 1px solid rgba(170,120,255,0.6);
+  border: 1px solid white;
   color: white;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  animation: pulso 3s infinite;
-}
-
-@keyframes pulso {
-  0% { box-shadow: 0 0 0 rgba(170,120,255,0); }
-  50% { box-shadow: 0 0 20px rgba(170,120,255,0.3); }
-  100% { box-shadow: 0 0 0 rgba(170,120,255,0); }
-}
-
-button:hover {
-  transform: scale(1.08);
-  letter-spacing: 3px;
-  border-color: rgba(200,170,255,1);
-}
-
-/* RESULTADO */
-#resultado {
-  margin-top: 50px;
+  font-size: 16px;
   opacity: 0;
-  transition: 1s;
+  transition: opacity 1s;
 }
 
-.extra {
-  font-style: italic;
+/* contador */
+.timer {
   margin-top: 15px;
-  opacity: 0.7;
   font-size: 14px;
+  opacity: 0.7;
 }
 
-/* MOBILE */
-@media (max-width:768px){
+/* glitch */
+.glitch {
+  animation: glitch 0.3s infinite;
+}
 
-.personagem {
-  position: relative;
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0); }
+}
+
+/* imagem fundo */
+.bg-img {
+  position: absolute;
   width: 100%;
-  height: auto;
-  opacity: 1;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
 }
-
-.container {
-  padding: 30px 20px;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(6px);
-}
-
-h1 {
-  font-size: 32px;
-}
-
-button {
-  width: 100%;
-}
-
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
-<div class="overlay"></div>
-
-<img src="personagem.jpg" class="personagem">
+<img src="SUA_IMAGEM_CANVA.jpg" class="bg-img">
 
 <div class="container">
-
-<h1>A CIDADE OBSERVA</h1>
-
-<p>
-Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.
-</p>
-
-<button onclick="invocar()">INVOCAR DESCONTO</button>
-
-<div id="resultado"></div>
-
+  <div id="mensagem">Verificando sua presença...</div>
+  <div id="timer" class="timer"></div>
+  <button id="btn" class="portal-btn" onclick="entrar()">Entrar no Portal</button>
 </div>
 
-<audio id="som" loop>
-<source src="https://www.soundjay.com/ambience/city-traffic-1.mp3" type="audio/mpeg">
-</audio>
-
 <script>
+const ciclo = 10 * 60 * 1000; // 10 min total (5 aberto / 5 fechado)
 
-// SOM
-document.body.addEventListener("click", () => {
-  const som = document.getElementById("som");
-  som.volume = 0.2;
-  som.play();
-}, { once: true });
+function atualizar() {
+  const agora = new Date().getTime();
+  const fase = agora % ciclo;
 
-// FUNÇÃO
-function invocar(){
+  const aberto = fase < ciclo / 2;
+  const restante = aberto ? (ciclo/2 - fase) : (ciclo - fase);
 
-const hoje = new Date().toDateString();
-const resultado = document.getElementById("resultado");
+  const segundos = Math.floor((restante / 1000) % 60);
+  const minutos = Math.floor((restante / 1000) / 60);
 
-if(localStorage.getItem("usou")===hoje){
-  resultado.style.opacity=1;
-  resultado.innerHTML = `
-  Você já foi observado hoje.
-  <div class="extra">
-  Dentro de 24 horas tente novamente!
-  </div>
-  `;
-  return;
+  const timer = document.getElementById("timer");
+  const msg = document.getElementById("mensagem");
+  const btn = document.getElementById("btn");
+
+  timer.innerHTML = aberto
+    ? `O portal fecha em ${minutos}:${segundos.toString().padStart(2,'0')}`
+    : `O portal pode abrir em ${minutos}:${segundos.toString().padStart(2,'0')}`;
+
+  if (aberto) {
+    msg.innerHTML = "O portal está aberto...";
+    btn.style.opacity = 1;
+  } else {
+    msg.innerHTML = "Volte em breve... o portal ainda não abriu.";
+    btn.style.opacity = 0;
+  }
+
+  // efeito glitch quando faltam 10s
+  if (restante < 10000) {
+    msg.classList.add("glitch");
+    timer.classList.add("glitch");
+  } else {
+    msg.classList.remove("glitch");
+    timer.classList.remove("glitch");
+  }
 }
 
-localStorage.setItem("usou",hoje);
-
-if(Math.random()<0.6){
-
-  const cupom = "SPHT20-" + Math.floor(1000+Math.random()*9000);
-
-  resultado.style.opacity=1;
-  resultado.innerHTML=
-  `Quem diria! Você foi percebido!<br><br>
-  <strong>${cupom}</strong>
-
-  <div class="extra">
-  Chame agora no whats de reservas 11 95651 2412! Você ganhou 20% de desconto na compra de seu ingresso - e de todos os seus acompanhantes - com pagamento via PIX, diretamente na agência. Este cupom NÃO é válido para compras efetuadas na Sympla.
-  </div>
-
-  <br>
-  <button onclick="abrirWhats('${cupom}')">CHAMAR NO WHATSAPP</button>
-  `;
-
-}else{
-
-  resultado.style.opacity=1;
-  resultado.innerHTML=
-  `Nenhum contato com o além!
-  <div class="extra">
-  Dentro de 24 horas poderá tentar novamente!
-  </div>`;
-
+function entrar() {
+  window.location.href = "home.html";
 }
 
-}
+// atualiza a cada segundo
+setInterval(atualizar, 1000);
 
-function abrirWhats(cupom){
-  const msg = encodeURIComponent(
-    "Olá! Fui contemplado no portal com o cupom "+cupom+" 👁️"
-  );
-  window.open("https://wa.me/5511956512412?text="+msg,"_blank");
-}
-
+// primeira execução imediata
+atualizar();
 </script>
 
 </body>
