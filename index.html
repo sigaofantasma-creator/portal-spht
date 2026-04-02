@@ -2,47 +2,323 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Amostra de Fontes Sans-Serif Elegantes</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;700&family=Raleway:wght@700&family=Roboto:wght@400;700&family=Poppins:wght@700&family=Lato:wght@400;700&family=Quicksand:wght@700&family=Nunito:wght@400;700&family=Heebo:wght@700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal SPHT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-body { background: #111; color: #fff; font-size: 16px; line-height: 1.5; padding: 40px; }
-h2 { margin-top: 40px; margin-bottom: 10px; font-size: 32px; }
-p { margin-bottom: 15px; font-size: 16px; }
-span.contador { display:block; font-size: 28px; margin-top:5px; }
-.sample { margin-bottom: 40px; padding-bottom: 10px; border-bottom: 1px solid #444; }
+
+body {
+  margin: 0;
+  background: black;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* FUNDO */
+.bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at bottom, rgba(120,80,255,0.08), black 70%);
+  z-index: -3;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, black 55%, rgba(0,0,0,0.2));
+  z-index: -2;
+}
+
+/* PERSONAGEM */
+.personagem {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  opacity: 0.9;
+  animation: respirar 7s ease-in-out infinite;
+}
+
+@keyframes respirar {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+  100% { transform: scale(1); }
+}
+
+/* CONTEÚDO */
+.container {
+  padding: 140px 80px;
+  max-width: 520px;
+}
+
+/* TÍTULO */
+h1 {
+  font-family: 'Heebo', sans-serif;
+  font-size: 40px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+/* TEXTO */
+p {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+/* CONTADOR */
+#contador {
+  font-family: 'Heebo', sans-serif;
+  font-size: 28px;
+  margin: 20px 0;
+  letter-spacing: 2px;
+  color: #d0aaff;
+  transition: all 0.2s ease-in-out;
+}
+
+/* EFEITO GLITCH */
+.glitch {
+  color: #ff77ff;
+  text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
+  animation: glitchAnim 0.3s infinite;
+}
+
+@keyframes glitchAnim {
+  0% { transform: translate(0,0); }
+  20% { transform: translate(-2px,2px); }
+  40% { transform: translate(2px,-2px); }
+  60% { transform: translate(-1px,1px); }
+  80% { transform: translate(1px,-1px); }
+  100% { transform: translate(0,0); }
+}
+
+/* BOTÃO */
+button {
+  margin-top: 30px;
+  padding: 12px 28px;
+  background: transparent;
+  border: 1px solid rgba(170,120,255,0.6);
+  color: white;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  animation: pulso 3s infinite;
+}
+
+@keyframes pulso {
+  0% { box-shadow: 0 0 0 rgba(170,120,255,0); }
+  50% { box-shadow: 0 0 20px rgba(170,120,255,0.3); }
+  100% { box-shadow: 0 0 0 rgba(170,120,255,0); }
+}
+
+button:hover {
+  transform: scale(1.08);
+  letter-spacing: 3px;
+  border-color: rgba(200,170,255,1);
+}
+
+/* RESULTADO */
+#resultado {
+  margin-top: 40px;
+  opacity: 0;
+  transition: 1s;
+}
+
+.extra {
+  font-style: italic;
+  margin-top: 10px;
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* MOBILE */
+@media (max-width:768px){
+
+.personagem {
+  position: relative;
+  width: 100%;
+  height: auto;
+  opacity: 1;
+}
+
+.container {
+  padding: 30px 20px;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+}
+
+h1 {
+  font-size: 28px;
+}
+
+button {
+  width: 100%;
+}
+
+#contador {
+  font-size: 22px;
+}
+
+}
+
 </style>
 </head>
+
 <body>
 
-<div class="sample">
-<h2 style="font-family:'Montserrat', sans-serif;">Montserrat (Título)</h2>
-<p style="font-family:'Open Sans', sans-serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
-<span class="contador" style="font-family:'Montserrat', sans-serif;">05:00</span>
+<div class="bg"></div>
+<div class="overlay"></div>
+
+<img src="personagem.jpg" class="personagem">
+
+<div class="container" id="portalAberto">
+
+<h1>A CIDADE OBSERVA</h1>
+
+<p>
+Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.
+</p>
+
+<div id="contador"></div>
+
+<button onclick="invocar()">INVOCAR DESCONTO</button>
+
+<div id="resultado"></div>
+
 </div>
 
-<div class="sample">
-<h2 style="font-family:'Raleway', sans-serif;">Raleway (Título)</h2>
-<p style="font-family:'Roboto', sans-serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
-<span class="contador" style="font-family:'Raleway', sans-serif;">05:00</span>
+<div class="container" id="portalFechado" style="display:none; text-align:center; padding-top:200px;">
+<h1>O PORTAL AINDA NÃO ABRIU</h1>
+<p>Volte em breve para tentar atravessar o portal e conquistar seu destino!</p>
+<div id="contadorFechado"></div>
 </div>
 
-<div class="sample">
-<h2 style="font-family:'Poppins', sans-serif;">Poppins (Título)</h2>
-<p style="font-family:'Lato', sans-serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
-<span class="contador" style="font-family:'Poppins', sans-serif;">05:00</span>
-</div>
+<audio id="som" loop>
+<source src="https://www.soundjay.com/ambience/city-traffic-1.mp3" type="audio/mpeg">
+</audio>
 
-<div class="sample">
-<h2 style="font-family:'Quicksand', sans-serif;">Quicksand (Título)</h2>
-<p style="font-family:'Nunito', sans-serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
-<span class="contador" style="font-family:'Quicksand', sans-serif;">05:00</span>
-</div>
+<script>
 
-<div class="sample">
-<h2 style="font-family:'Heebo', sans-serif;">Heebo (Título)</h2>
-<p style="font-family:'Inter', sans-serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
-<span class="contador" style="font-family:'Heebo', sans-serif;">05:00</span>
-</div>
+// SOM
+document.body.addEventListener("click", () => {
+  const som = document.getElementById("som");
+  som.volume = 0.2;
+  som.play();
+}, { once: true });
+
+// CONFIGURAÇÃO DE TEMPO
+let portalAberto = true; // começa aberto
+let duracaoAberto = 5*60; // 5 minutos em segundos
+let duracaoFechado = 5*60; // 5 minutos fechado
+let contadorAtual = duracaoAberto;
+
+// ELEMENTOS
+const contador = document.getElementById("contador");
+const contadorFechado = document.getElementById("contadorFechado");
+const portalAbertoDiv = document.getElementById("portalAberto");
+const portalFechadoDiv = document.getElementById("portalFechado");
+
+// FUNÇÃO PARA FORMATAR TEMPO
+function formatarTempo(segundos){
+  const m = Math.floor(segundos/60).toString().padStart(2,'0');
+  const s = (segundos%60).toString().padStart(2,'0');
+  return `${m}:${s}`;
+}
+
+// ATUALIZA CONTADOR
+function atualizarContador(){
+  if(portalAberto){
+    contador.innerText = formatarTempo(contadorAtual);
+    if(contadorAtual<=10){
+      contador.classList.add("glitch");
+    } else {
+      contador.classList.remove("glitch");
+    }
+  } else {
+    contadorFechado.innerText = formatarTempo(contadorAtual);
+    if(contadorAtual<=10){
+      contadorFechado.classList.add("glitch");
+    } else {
+      contadorFechado.classList.remove("glitch");
+    }
+  }
+}
+
+// TIMER PRINCIPAL
+setInterval(()=>{
+  contadorAtual--;
+  if(contadorAtual<0){
+    portalAberto = !portalAberto;
+    contadorAtual = portalAberto ? duracaoAberto : duracaoFechado;
+    portalAbertoDiv.style.display = portalAberto ? "block" : "none";
+    portalFechadoDiv.style.display = portalAberto ? "none" : "block";
+  }
+  atualizarContador();
+}, 1000);
+
+// FUNÇÃO INVOCAR DESCONTO
+function invocar(){
+
+const hoje = new Date().toDateString();
+const resultado = document.getElementById("resultado");
+
+if(localStorage.getItem("usou")===hoje){
+  resultado.style.opacity=1;
+  resultado.innerHTML = `
+  Você já foi observado hoje.
+  <div class="extra">
+  Dentro de 24 horas tente novamente!
+  </div>
+  `;
+  return;
+}
+
+localStorage.setItem("usou",hoje);
+
+if(Math.random()<0.3){ // dificuldade inicial: 30% de chance
+
+  const cupom = "SPHT20-" + Math.floor(1000+Math.random()*9000);
+
+  resultado.style.opacity=1;
+  resultado.innerHTML=`
+  Quem diria! Você foi percebido!<br><br>
+  <strong>${cupom}</strong>
+  <div class="extra">
+  Chame agora no WhatsApp 11 95651 2412! Você ganhou 20% de desconto na compra de seu ingresso - diretamente na agência. Este cupom NÃO é válido para compras efetuadas na Sympla.
+  </div>
+  <br>
+  <button onclick="abrirWhats('${cupom}')">CHAMAR NO WHATSAPP</button>
+  `;
+
+}else{
+
+  resultado.style.opacity=1;
+  resultado.innerHTML=`
+  Nenhum contato com o além!
+  <div class="extra">
+  Dentro de 24 horas poderá tentar novamente!
+  </div>`;
+
+}
+
+}
+
+function abrirWhats(cupom){
+  const msg = encodeURIComponent(
+    "Olá! Fui contemplado no portal com o cupom "+cupom+" 👁️"
+  );
+  window.open("https://wa.me/5511956512412?text="+msg,"_blank");
+}
+
+</script>
 
 </body>
 </html>
