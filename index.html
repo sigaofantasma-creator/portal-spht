@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal SPHT</title>
 
-<!-- FONTES -->
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -18,7 +17,6 @@ body {
   overflow-x: hidden;
 }
 
-/* FUNDO URBANO */
 .bg {
   position: fixed;
   width: 100%;
@@ -27,7 +25,6 @@ body {
   z-index: -3;
 }
 
-/* OVERLAY */
 .overlay {
   position: fixed;
   width: 100%;
@@ -36,7 +33,6 @@ body {
   z-index: -2;
 }
 
-/* PERSONAGEM */
 .personagem {
   position: fixed;
   right: 0;
@@ -52,7 +48,6 @@ body {
   100% { transform: scale(1); }
 }
 
-/* OLHO */
 .olho {
   position: absolute;
   width: 14px;
@@ -65,27 +60,23 @@ body {
   transition: transform 0.2s;
 }
 
-/* CONTEÚDO */
 .container {
   padding: 140px 80px;
   max-width: 520px;
 }
 
-/* TÍTULO URBANO */
 h1 {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 44px;
   letter-spacing: 6px;
 }
 
-/* TEXTO */
 p {
   font-family: 'Inter', sans-serif;
   opacity: 0.8;
   line-height: 1.6;
 }
 
-/* BOTÃO VIOLETA VIVO */
 button {
   margin-top: 40px;
   padding: 14px 32px;
@@ -111,7 +102,6 @@ button:hover {
   border-color: rgba(200,170,255,1);
 }
 
-/* RESULTADO */
 #resultado {
   margin-top: 50px;
   opacity: 0;
@@ -125,7 +115,6 @@ button:hover {
   font-size: 14px;
 }
 
-/* MOBILE PERFEITO */
 @media (max-width:768px){
 
 .personagem {
@@ -176,7 +165,6 @@ Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toqu
 
 </div>
 
-<!-- SOM -->
 <audio id="som" loop>
 <source src="https://www.soundjay.com/ambience/city-traffic-1.mp3" type="audio/mpeg">
 </audio>
@@ -215,7 +203,12 @@ const resultado = document.getElementById("resultado");
 
 if(localStorage.getItem("usou")===hoje){
   resultado.style.opacity=1;
-  resultado.innerHTML="Você já foi observado hoje.";
+  resultado.innerHTML = `
+  Você já foi observado hoje.
+  <div class="extra">
+  Dentro de 24 horas tente novamente!
+  </div>
+  `;
   return;
 }
 
