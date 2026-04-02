@@ -1,1 +1,170 @@
-<h1>TESTE NOVO</h1>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Portal SPHT</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  font-family: Georgia, serif;
+  color: white;
+  overflow: hidden;
+}
+
+/* silhueta SP bem sutil */
+.bg-sp {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/6/6d/Sao_Paulo_skyline_silhouette.png') no-repeat center bottom;
+  background-size: contain;
+  opacity: 0.03;
+  z-index: -2;
+}
+
+/* personagem */
+.personagem {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  opacity: 0.85;
+}
+
+/* conteúdo */
+.container {
+  padding: 140px 80px;
+  max-width: 520px;
+}
+
+/* título */
+h1 {
+  font-size: 32px;
+  letter-spacing: 3px;
+  font-weight: normal;
+}
+
+/* texto */
+p {
+  opacity: 0.5;
+  font-size: 15px;
+}
+
+/* botão */
+button {
+  margin-top: 40px;
+  padding: 14px 32px;
+  font-size: 14px;
+  letter-spacing: 2px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+button:hover {
+  border-color: rgba(255,255,255,0.6);
+  letter-spacing: 3px;
+}
+
+/* resultado */
+#resultado {
+  margin-top: 50px;
+  line-height: 1.8;
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 1s;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-sp"></div>
+
+<!-- IMPORTANTE: nome do arquivo da sua imagem -->
+<img src="personagem.jpg" class="personagem">
+
+<div class="container">
+  <h1>👁️ A CIDADE OBSERVA</h1>
+  <p>Nem tudo em São Paulo pode ser visto.</p>
+
+  <button onclick="invocar()">INVOCAR</button>
+
+  <div id="resultado"></div>
+</div>
+
+<script>
+
+function invocar() {
+
+  const hoje = new Date().toDateString();
+  const resultado = document.getElementById("resultado");
+
+  if (localStorage.getItem("usou") === hoje) {
+    resultado.style.opacity = 1;
+    resultado.innerHTML = "Você já foi observado hoje.";
+    return;
+  }
+
+  localStorage.setItem("usou", hoje);
+
+  const chance = Math.random();
+
+  if (chance < 0.6) {
+
+    const cupom = "SPHT20-" + Math.floor(1000 + Math.random() * 9000);
+    let tempo = 300;
+
+    const mensagens = [
+      "Você foi percebido.",
+      "Algo respondeu.",
+      "Um fragmento foi revelado.",
+      "A cidade permitiu acesso.",
+      "Nem todos chegam até aqui."
+    ];
+
+    const msg = mensagens[Math.floor(Math.random() * mensagens.length)];
+
+    resultado.style.opacity = 1;
+    resultado.innerHTML =
+      `${msg}<br><br>
+       <strong>${cupom}</strong><br><br>
+       expira em <span id="tempo">${tempo}</span>s`;
+
+    const timer = setInterval(() => {
+      tempo--;
+      document.getElementById("tempo").innerText = tempo;
+
+      if (tempo <= 0) {
+        clearInterval(timer);
+        resultado.innerHTML = "O acesso foi encerrado.";
+      }
+    }, 1000);
+
+  } else {
+
+    const erros = [
+      "Nada respondeu.",
+      "Não desta vez.",
+      "A cidade permaneceu em silêncio.",
+      "O acesso não foi concedido.",
+      "Você não foi escolhido."
+    ];
+
+    const msgErro = erros[Math.floor(Math.random() * erros.length)];
+
+    resultado.style.opacity = 1;
+    resultado.innerHTML = msgErro;
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
