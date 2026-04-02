@@ -5,15 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal SPHT</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Fonte elegante e spooky -->
+<link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Creepster&display=swap" rel="stylesheet">
 
 <style>
 body {
   margin: 0;
   background: black;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Uncial Antiqua', serif;
   color: white;
   overflow-x: hidden;
+  font-size: 16px; /* corpo menor e elegante */
 }
 
 /* FUNDO */
@@ -46,8 +48,8 @@ body {
 
 /* CONTEÚDO */
 .container {
-  padding: 140px 80px;
-  max-width: 520px;
+  padding: 120px 60px;
+  max-width: 500px;
   opacity: 1;
   transition: opacity 1s;
   position: relative;
@@ -56,40 +58,42 @@ body {
 
 /* TÍTULO */
 h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 44px;
-  letter-spacing: 6px;
+  font-family: 'Creepster', cursive;
+  font-size: 40px;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
 }
 
 /* TEXTO */
-p { opacity: 0.8; line-height: 1.6; }
+p { opacity: 0.8; line-height: 1.6; font-size: 15px; }
 
 /* BOTÃO */
 button {
-  margin-top: 40px;
-  padding: 14px 32px;
+  margin-top: 30px;
+  padding: 12px 28px;
   background: transparent;
   border: 1px solid rgba(170,120,255,0.6);
   color: white;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  letter-spacing: 2px;
+  font-family: 'Uncial Antiqua', serif;
+  letter-spacing: 1.5px;
   transition: all 0.3s ease;
   animation: pulso 3s infinite;
+  font-size: 15px;
 }
 @keyframes pulso {
   0% { box-shadow: 0 0 0 rgba(170,120,255,0); }
   50% { box-shadow: 0 0 20px rgba(170,120,255,0.3); }
   100% { box-shadow: 0 0 0 rgba(170,120,255,0); }
 }
-button:hover { transform: scale(1.08); letter-spacing: 3px; border-color: rgba(200,170,255,1); }
+button:hover { transform: scale(1.05); letter-spacing: 2px; border-color: rgba(200,170,255,1); }
 
 /* RESULTADO */
-#resultado { margin-top: 50px; opacity: 0; transition: 1s; }
-.extra { font-style: italic; margin-top: 15px; opacity: 0.7; font-size: 14px; }
+#resultado { margin-top: 40px; opacity: 0; transition: 1s; }
+.extra { font-style: italic; margin-top: 12px; opacity: 0.7; font-size: 13px; }
 
 /* CONTADOR */
-#contador { font-family: 'Bebas Neue', sans-serif; font-size: 28px; margin-top: 20px; }
+#contador { font-family: 'Creepster', cursive; font-size: 28px; margin-top: 15px; }
 
 /* GLITCH */
 .glitch { color: #ff00ff; text-shadow: 2px 0 #0ff, -2px 0 #0ff; animation: glitchAnim 0.1s infinite; }
@@ -130,22 +134,23 @@ button:hover { transform: scale(1.08); letter-spacing: 3px; border-color: rgba(2
   width: 100%;
   background: black;
   color: white;
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Creepster', cursive;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   font-size: 36px;
   padding: 20px;
+  flex-direction: column;
 }
 
 /* MOBILE */
 @media (max-width:768px){
   .personagem { position: relative; width: 100%; height: auto; opacity: 1; }
-  .container { padding: 30px 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); }
-  h1 { font-size: 32px; }
-  button { width: 100%; }
-  #contador { font-size: 24px; }
+  .container { padding: 25px 15px; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); }
+  h1 { font-size: 28px; }
+  button { width: 100%; font-size: 14px; padding: 10px 20px; }
+  #contador { font-size: 22px; margin-top: 10px; }
   #portal-fechado { font-size: 28px; }
 }
 </style>
@@ -168,7 +173,10 @@ button:hover { transform: scale(1.08); letter-spacing: 3px; border-color: rgba(2
 </div>
 
 <!-- PORTAL FECHADO -->
-<div id="portal-fechado">O portal ainda não abriu… Volte em breve e teste sua sorte!</div>
+<div id="portal-fechado">
+  <div>O portal ainda não abriu…</div>
+  <div id="contador-fechado"></div>
+</div>
 
 <div class="flash" id="flash"></div>
 
@@ -205,28 +213,28 @@ function calcularEstadoPortal(){
 
   if(tempoNoCiclo < tempoAberto){
     portalAberto = true;
-    iniciarContador(tempoAberto - tempoNoCiclo);
     document.getElementById('portal-aberto').style.display = 'block';
     document.getElementById('portal-fechado').style.display = 'none';
+    iniciarContador(tempoAberto - tempoNoCiclo, 'contador');
   } else {
     portalAberto = false;
     document.getElementById('portal-aberto').style.display = 'none';
     document.getElementById('portal-fechado').style.display = 'flex';
+    iniciarContador(cicloTotal - tempoNoCiclo, 'contador-fechado');
   }
 
-  // Agendar próxima alternância
   setTimeout(calcularEstadoPortal, 1000);
 }
 
 // CONTADOR COM GLITCH + TREMOR + FLASH
-function iniciarContador(segundos){
-  const contadorEl = document.getElementById("contador");
+function iniciarContador(segundos, id){
+  const contadorEl = document.getElementById(id);
   const alerta = document.getElementById("alerta");
   const personagem = document.getElementById("personagem");
   const flash = document.getElementById("flash");
   let t = segundos;
 
-  clearInterval(contadorEl._interval); // limpa se já tiver contador rodando
+  clearInterval(contadorEl._interval);
   contadorEl._interval = setInterval(()=>{
     let min = Math.floor(t/60), seg = t%60;
     contadorEl.textContent = `${min.toString().padStart(2,'0')}:${seg.toString().padStart(2,'0')}`;
