@@ -12,18 +12,19 @@ body {
   background: black;
   font-family: Georgia, serif;
   color: white;
+  overflow-x: hidden;
 }
 
-/* fundo */
+/* FUNDO */
 .bg {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top, rgba(255,255,255,0.05), transparent);
+  background: radial-gradient(circle at bottom, rgba(120,80,255,0.08), black 70%);
   z-index: -3;
 }
 
-/* overlay */
+/* OVERLAY */
 .overlay {
   position: fixed;
   width: 100%;
@@ -32,13 +33,13 @@ body {
   z-index: -2;
 }
 
-/* personagem */
+/* PERSONAGEM */
 .personagem {
   position: fixed;
   right: 0;
   bottom: 0;
   height: 100%;
-  opacity: 0.85;
+  opacity: 0.9;
   animation: respirar 7s ease-in-out infinite;
 }
 
@@ -48,25 +49,20 @@ body {
   100% { transform: scale(1); }
 }
 
-/* olho */
+/* OLHO */
 .olho {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  background: rgba(160,120,255,0.9);
+  width: 14px;
+  height: 14px;
+  background: rgba(170,120,255,0.9);
   border-radius: 50%;
   top: 38%;
   right: 16%;
-  animation: olhar 6s infinite;
+  box-shadow: 0 0 10px rgba(170,120,255,0.7);
+  transition: transform 0.2s;
 }
 
-@keyframes olhar {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(-2px,1px); }
-  100% { transform: translate(0,0); }
-}
-
-/* conteúdo */
+/* CONTEÚDO */
 .container {
   padding: 140px 80px;
   max-width: 520px;
@@ -77,35 +73,41 @@ h1 {
 }
 
 p {
-  opacity: 0.75;
+  opacity: 0.8;
+  line-height: 1.6;
 }
 
-/* BOTÃO COM BORDA VIOLETA */
+/* BOTÃO VIVO */
 button {
   margin-top: 40px;
   padding: 14px 32px;
   background: transparent;
-  border: 1px solid rgba(160,120,255,0.6);
+  border: 1px solid rgba(170,120,255,0.6);
   color: white;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  animation: pulso 3s infinite;
+}
+
+@keyframes pulso {
+  0% { box-shadow: 0 0 0 rgba(170,120,255,0); }
+  50% { box-shadow: 0 0 20px rgba(170,120,255,0.3); }
+  100% { box-shadow: 0 0 0 rgba(170,120,255,0); }
 }
 
 button:hover {
-  transform: scale(1.07);
+  transform: scale(1.08);
   letter-spacing: 3px;
   border-color: rgba(200,170,255,1);
-  box-shadow: 0 0 12px rgba(160,120,255,0.4);
 }
 
-/* resultado */
+/* RESULTADO */
 #resultado {
   margin-top: 50px;
   opacity: 0;
   transition: 1s;
 }
 
-/* texto extra */
 .extra {
   font-style: italic;
   margin-top: 15px;
@@ -113,7 +115,7 @@ button:hover {
   font-size: 14px;
 }
 
-/* mobile */
+/* MOBILE */
 @media (max-width:768px){
 
 .personagem {
@@ -125,7 +127,8 @@ button:hover {
 
 .container {
   padding: 30px 20px;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
 }
 
 button {
@@ -143,7 +146,7 @@ button {
 <div class="overlay"></div>
 
 <img src="personagem.jpg" class="personagem">
-<div class="olho"></div>
+<div class="olho" id="olho"></div>
 
 <div class="container">
 <h1>👁️ A CIDADE OBSERVA</h1>
@@ -158,19 +161,35 @@ Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toqu
 
 </div>
 
-<!-- som ambiente -->
 <audio id="som" loop>
 <source src="https://www.soundjay.com/ambience/city-traffic-1.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-// som inicia no primeiro clique
+// SOM
 document.body.addEventListener("click", () => {
   const som = document.getElementById("som");
   som.volume = 0.2;
   som.play();
 }, { once: true });
+
+// OLHO SEGUE USUÁRIO
+document.addEventListener("mousemove", (e) => {
+  const olho = document.getElementById("olho");
+  const x = (e.clientX / window.innerWidth - 0.5) * 10;
+  const y = (e.clientY / window.innerHeight - 0.5) * 10;
+  olho.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+// MOBILE TOUCH
+document.addEventListener("touchmove", (e) => {
+  const t = e.touches[0];
+  const olho = document.getElementById("olho");
+  const x = (t.clientX / window.innerWidth - 0.5) * 10;
+  const y = (t.clientY / window.innerHeight - 0.5) * 10;
+  olho.style.transform = `translate(${x}px, ${y}px)`;
+});
 
 function invocar(){
 
