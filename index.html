@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal SPHT</title>
+<title>Portal SPHT Cinemático</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -137,7 +137,6 @@ button:hover { transform: scale(1.08); letter-spacing: 3px; border-color: rgba(2
   text-align: center;
   font-size: 36px;
   padding: 20px;
-  opacity: 1;
 }
 
 /* MOBILE */
@@ -186,27 +185,38 @@ document.body.addEventListener("click", () => {
   som.play();
 }, { once: true });
 
-// CICLO PORTAL ABERTO / FECHADO
+// CONFIGURAÇÃO DO PORTAL
 const tempoAberto = 5*60;
 const tempoFechado = 5*60;
-let portalAberto = false;
+const cicloTotal = tempoAberto + tempoFechado;
 
-function alternarPortal() {
-  portalAberto = !portalAberto;
-  const portalA = document.getElementById('portal-aberto');
-  const portalF = document.getElementById('portal-fechado');
-
-  if(portalAberto){
-    portalA.style.display='block';
-    portalF.style.display='none';
-    iniciarContador(tempoAberto);
+function calcularEstadoPortal(){
+  const agora = Date.now();
+  let inicioCiclo = localStorage.getItem('inicioCiclo');
+  if(!inicioCiclo){
+    inicioCiclo = agora;
+    localStorage.setItem('inicioCiclo', inicioCiclo);
   } else {
-    portalA.style.display='none';
-    portalF.style.display='flex';
+    inicioCiclo = parseInt(inicioCiclo);
   }
+
+  let tempoPassado = Math.floor((agora - inicioCiclo)/1000);
+  let tempoNoCiclo = tempoPassado % cicloTotal;
+
+  if(tempoNoCiclo < tempoAberto){
+    portalAberto = true;
+    iniciarContador(tempoAberto - tempoNoCiclo);
+    document.getElementById('portal-aberto').style.display = 'block';
+    document.getElementById('portal-fechado').style.display = 'none';
+  } else {
+    portalAberto = false;
+    document.getElementById('portal-aberto').style.display = 'none';
+    document.getElementById('portal-fechado').style.display = 'flex';
+  }
+
+  // Agendar próxima alternância
+  setTimeout(calcularEstadoPortal, 1000);
 }
-setInterval(alternarPortal,(tempoAberto+tempoFechado)*1000);
-alternarPortal();
 
 // CONTADOR COM GLITCH + TREMOR + FLASH
 function iniciarContador(segundos){
@@ -216,7 +226,8 @@ function iniciarContador(segundos){
   const flash = document.getElementById("flash");
   let t = segundos;
 
-  const intervalo = setInterval(()=>{
+  clearInterval(contadorEl._interval); // limpa se já tiver contador rodando
+  contadorEl._interval = setInterval(()=>{
     let min = Math.floor(t/60), seg = t%60;
     contadorEl.textContent = `${min.toString().padStart(2,'0')}:${seg.toString().padStart(2,'0')}`;
 
@@ -233,7 +244,8 @@ function iniciarContador(segundos){
       flash.style.opacity=0;
     }
 
-    t--; if(t<0){ clearInterval(intervalo); contadorEl.classList.remove('glitch','tremor'); personagem.style.transform=''; personagem.style.filter=''; flash.style.opacity=0; }
+    t--; 
+    if(t<0){ clearInterval(contadorEl._interval); contadorEl.classList.remove('glitch','tremor'); personagem.style.transform=''; personagem.style.filter=''; flash.style.opacity=0; }
   },1000);
 }
 
@@ -257,10 +269,14 @@ function invocar(){
     resultado.innerHTML=`Nenhum contato com o além!<div class="extra">Dentro de 24 horas poderá tentar novamente!</div>`;
   }
 }
+
 function abrirWhats(cupom){
   const msg = encodeURIComponent("Olá! Fui contemplado no portal com o cupom "+cupom+" 👁️");
   window.open("https://wa.me/5511956512412?text="+msg,"_blank");
 }
+
+// INICIAR PORTAL
+calcularEstadoPortal();
 </script>
 </body>
 </html>
