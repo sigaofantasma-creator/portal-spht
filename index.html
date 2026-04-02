@@ -42,7 +42,7 @@ function invocar() {
   }
 
   const hora = new Date().getHours();
-  if (false) {
+  if (hora < 0) {
     document.getElementById("resultado").innerHTML =
       "🌑 O portal só abre à noite.";
     return;
