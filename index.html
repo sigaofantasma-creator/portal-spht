@@ -5,17 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal SPHT</title>
 
+<!-- FONTES -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
 
 body {
   margin: 0;
   background: black;
-  font-family: Georgia, serif;
+  font-family: 'Inter', sans-serif;
   color: white;
   overflow-x: hidden;
 }
 
-/* FUNDO */
+/* FUNDO URBANO */
 .bg {
   position: fixed;
   width: 100%;
@@ -68,16 +71,21 @@ body {
   max-width: 520px;
 }
 
+/* TÍTULO URBANO */
 h1 {
-  letter-spacing: 3px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px;
+  letter-spacing: 6px;
 }
 
+/* TEXTO */
 p {
+  font-family: 'Inter', sans-serif;
   opacity: 0.8;
   line-height: 1.6;
 }
 
-/* BOTÃO VIVO */
+/* BOTÃO VIOLETA VIVO */
 button {
   margin-top: 40px;
   padding: 14px 32px;
@@ -85,6 +93,8 @@ button {
   border: 1px solid rgba(170,120,255,0.6);
   color: white;
   cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 2px;
   transition: all 0.3s ease;
   animation: pulso 3s infinite;
 }
@@ -115,7 +125,7 @@ button:hover {
   font-size: 14px;
 }
 
-/* MOBILE */
+/* MOBILE PERFEITO */
 @media (max-width:768px){
 
 .personagem {
@@ -129,6 +139,10 @@ button:hover {
   padding: 30px 20px;
   background: rgba(0,0,0,0.85);
   backdrop-filter: blur(6px);
+}
+
+h1 {
+  font-size: 32px;
 }
 
 button {
@@ -149,7 +163,8 @@ button {
 <div class="olho" id="olho"></div>
 
 <div class="container">
-<h1>👁️ A CIDADE OBSERVA</h1>
+
+<h1>A CIDADE OBSERVA</h1>
 
 <p>
 Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe um fantasma te permita ultrapassar.
@@ -161,6 +176,7 @@ Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toqu
 
 </div>
 
+<!-- SOM -->
 <audio id="som" loop>
 <source src="https://www.soundjay.com/ambience/city-traffic-1.mp3" type="audio/mpeg">
 </audio>
@@ -174,7 +190,7 @@ document.body.addEventListener("click", () => {
   som.play();
 }, { once: true });
 
-// OLHO SEGUE USUÁRIO
+// OLHO SEGUE
 document.addEventListener("mousemove", (e) => {
   const olho = document.getElementById("olho");
   const x = (e.clientX / window.innerWidth - 0.5) * 10;
@@ -182,7 +198,7 @@ document.addEventListener("mousemove", (e) => {
   olho.style.transform = `translate(${x}px, ${y}px)`;
 });
 
-// MOBILE TOUCH
+// TOUCH
 document.addEventListener("touchmove", (e) => {
   const t = e.touches[0];
   const olho = document.getElementById("olho");
@@ -191,6 +207,7 @@ document.addEventListener("touchmove", (e) => {
   olho.style.transform = `translate(${x}px, ${y}px)`;
 });
 
+// FUNÇÃO
 function invocar(){
 
 const hoje = new Date().toDateString();
@@ -204,9 +221,7 @@ if(localStorage.getItem("usou")===hoje){
 
 localStorage.setItem("usou",hoje);
 
-const chance = Math.random();
-
-if(chance<0.6){
+if(Math.random()<0.6){
 
   const cupom = "SPHT20-" + Math.floor(1000+Math.random()*9000);
 
