@@ -17,6 +17,7 @@ body {
   overflow-x: hidden;
 }
 
+/* FUNDO */
 .bg {
   position: fixed;
   width: 100%;
@@ -25,6 +26,7 @@ body {
   z-index: -3;
 }
 
+/* OVERLAY */
 .overlay {
   position: fixed;
   width: 100%;
@@ -33,6 +35,7 @@ body {
   z-index: -2;
 }
 
+/* PERSONAGEM */
 .personagem {
   position: fixed;
   right: 0;
@@ -48,35 +51,26 @@ body {
   100% { transform: scale(1); }
 }
 
-.olho {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  background: rgba(170,120,255,0.9);
-  border-radius: 50%;
-  top: 38%;
-  right: 16%;
-  box-shadow: 0 0 10px rgba(170,120,255,0.7);
-  transition: transform 0.2s;
-}
-
+/* CONTEÚDO */
 .container {
   padding: 140px 80px;
   max-width: 520px;
 }
 
+/* TÍTULO */
 h1 {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 44px;
   letter-spacing: 6px;
 }
 
+/* TEXTO */
 p {
-  font-family: 'Inter', sans-serif;
   opacity: 0.8;
   line-height: 1.6;
 }
 
+/* BOTÃO */
 button {
   margin-top: 40px;
   padding: 14px 32px;
@@ -102,6 +96,7 @@ button:hover {
   border-color: rgba(200,170,255,1);
 }
 
+/* RESULTADO */
 #resultado {
   margin-top: 50px;
   opacity: 0;
@@ -115,6 +110,7 @@ button:hover {
   font-size: 14px;
 }
 
+/* MOBILE */
 @media (max-width:768px){
 
 .personagem {
@@ -149,7 +145,6 @@ button {
 <div class="overlay"></div>
 
 <img src="personagem.jpg" class="personagem">
-<div class="olho" id="olho"></div>
 
 <div class="container">
 
@@ -178,23 +173,6 @@ document.body.addEventListener("click", () => {
   som.play();
 }, { once: true });
 
-// OLHO SEGUE
-document.addEventListener("mousemove", (e) => {
-  const olho = document.getElementById("olho");
-  const x = (e.clientX / window.innerWidth - 0.5) * 10;
-  const y = (e.clientY / window.innerHeight - 0.5) * 10;
-  olho.style.transform = `translate(${x}px, ${y}px)`;
-});
-
-// TOUCH
-document.addEventListener("touchmove", (e) => {
-  const t = e.touches[0];
-  const olho = document.getElementById("olho");
-  const x = (t.clientX / window.innerWidth - 0.5) * 10;
-  const y = (t.clientY / window.innerHeight - 0.5) * 10;
-  olho.style.transform = `translate(${x}px, ${y}px)`;
-});
-
 // FUNÇÃO
 function invocar(){
 
@@ -206,7 +184,7 @@ if(localStorage.getItem("usou")===hoje){
   resultado.innerHTML = `
   Você já foi observado hoje.
   <div class="extra">
-  Dentro de 24 horas poderá tentar novamente!
+  Dentro de 24 horas tente novamente!
   </div>
   `;
   return;
