@@ -15,43 +15,66 @@ body {
   overflow: hidden;
 }
 
-/* fundo urbano sutil */
+/* BASE URBANA (simula cidade) */
 .bg-sp {
   position: fixed;
   width: 100%;
   height: 100%;
-  bottom: 0;
-  background: linear-gradient(to top, rgba(255,255,255,0.04), transparent 60%);
-  z-index: -2;
+  background: linear-gradient(to top, rgba(255,255,255,0.05), transparent 70%);
+  z-index: -3;
 }
 
-/* camada de leitura */
+/* OVERLAY DE LEITURA (ESSENCIAL) */
 .overlay {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, black 40%, transparent 100%);
-  z-index: -1;
+  background: linear-gradient(90deg, black 50%, rgba(0,0,0,0.2) 100%);
+  z-index: -2;
 }
 
-/* personagem com respiração */
+/* PERSONAGEM */
 .personagem {
   position: fixed;
   right: 0;
   bottom: 0;
   height: 100%;
-  opacity: 0.8;
-  animation: respirar 6s ease-in-out infinite;
+  opacity: 0.85;
+  animation: respirar 7s ease-in-out infinite;
 }
 
+/* RESPIRAÇÃO */
 @keyframes respirar {
   0% { transform: scale(1); }
-  50% { transform: scale(1.015); }
+  50% { transform: scale(1.01); }
   100% { transform: scale(1); }
 }
 
-/* conteúdo */
+/* OLHO (movimento sutil) */
+.olho {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: rgba(150,100,255,0.8);
+  border-radius: 50%;
+  top: 38%;
+  right: 16%;
+  animation: olhar 6s infinite;
+  filter: blur(0.5px);
+}
+
+@keyframes olhar {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(-2px,1px); }
+  50% { transform: translate(1px,-1px); }
+  75% { transform: translate(-1px,0); }
+  100% { transform: translate(0,0); }
+}
+
+/* CONTEÚDO */
 .container {
+  position: relative;
+  z-index: 2;
   padding: 140px 80px;
   max-width: 520px;
 }
@@ -59,14 +82,13 @@ body {
 h1 {
   font-size: 32px;
   letter-spacing: 3px;
-  font-weight: normal;
 }
 
 p {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
-/* botão com micro-interação */
+/* BOTÃO PREMIUM */
 button {
   margin-top: 40px;
   padding: 14px 32px;
@@ -80,12 +102,12 @@ button {
 }
 
 button:hover {
-  transform: scale(1.08);
+  transform: scale(1.07);
   letter-spacing: 4px;
   border-color: rgba(255,255,255,0.6);
 }
 
-/* resultado */
+/* RESULTADO */
 #resultado {
   margin-top: 50px;
   line-height: 1.8;
@@ -93,26 +115,34 @@ button:hover {
   transition: opacity 1s;
 }
 
-/* mobile */
+/* MOBILE PERFEITO */
 @media (max-width: 768px) {
 
+  body {
+    overflow: auto;
+  }
+
   .personagem {
-    height: 70%;
-    right: -40px;
-    opacity: 0.5;
+    position: relative;
+    width: 100%;
+    height: auto;
+    opacity: 0.25;
   }
 
   .overlay {
-    background: linear-gradient(to bottom, black 65%, transparent 100%);
+    background: linear-gradient(to bottom, black 60%, rgba(0,0,0,0.3) 100%);
   }
 
   .container {
-    padding: 80px 30px;
-    max-width: 100%;
+    padding: 40px 20px;
+    margin-top: -120px;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    border-top: 1px solid rgba(255,255,255,0.1);
   }
 
   h1 {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   button {
@@ -130,6 +160,8 @@ button:hover {
 <div class="overlay"></div>
 
 <img src="personagem.jpg" class="personagem">
+
+<div class="olho"></div>
 
 <div class="container">
   <h1>👁️ A CIDADE OBSERVA</h1>
@@ -168,13 +200,12 @@ function invocar() {
     nivel++;
     localStorage.setItem("nivel", nivel);
 
-    // storytelling progressivo
     const narrativas = [
       "Você foi percebido.",
       "Algo começou a responder.",
-      "Você está atravessando camadas.",
-      "A cidade começa a se revelar.",
-      "Agora você já não é um estranho."
+      "Você atravessou mais fundo.",
+      "A cidade começa a te reconhecer.",
+      "Agora você faz parte disso."
     ];
 
     const msg = narrativas[Math.min(nivel-1, narrativas.length-1)];
