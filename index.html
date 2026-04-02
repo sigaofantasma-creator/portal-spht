@@ -2,289 +2,61 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal SPHT</title>
-
-<!-- Fontes elegantes e legíveis -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
-
+<title>Amostra de Fontes Elegantes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cinzel:wght@700&family=Cormorant+Garamond:wght@700&family=EB+Garamond:wght@700&family=Lora:wght@400;700&family=Merriweather:wght@400;700&family=Crimson+Pro:wght@400;700&family=Libre+Baskerville:wght@400;700&family=Cardo:wght@400;700&display=swap" rel="stylesheet">
 <style>
-body {
-  margin: 0;
-  background: black;
-  font-family: 'Lora', serif;
-  color: white;
-  overflow-x: hidden;
-  font-size: 16px;
-}
-
-/* FUNDO */
-.bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at bottom, rgba(120,80,255,0.08), black 70%);
-  z-index: -3;
-}
-
-/* OVERLAY */
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, black 55%, rgba(0,0,0,0.2));
-  z-index: -2;
-}
-
-/* PERSONAGEM */
-.personagem {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  opacity: 0.9;
-  transition: transform 0.1s, filter 0.1s;
-}
-
-/* CONTEÚDO */
-.container {
-  padding: 120px 60px;
-  max-width: 500px;
-  opacity: 1;
-  transition: opacity 1s;
-  position: relative;
-  z-index: 1;
-}
-
-/* TÍTULO */
-h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 38px;
-  letter-spacing: 2px;
-  margin-bottom: 20px;
-}
-
-/* TEXTO */
-p { opacity: 0.85; line-height: 1.6; font-size: 15px; }
-
-/* BOTÃO */
-button {
-  margin-top: 30px;
-  padding: 12px 28px;
-  background: transparent;
-  border: 1px solid rgba(170,120,255,0.6);
-  color: white;
-  cursor: pointer;
-  font-family: 'Lora', serif;
-  letter-spacing: 1.5px;
-  transition: all 0.3s ease;
-  animation: pulso 3s infinite;
-  font-size: 15px;
-}
-@keyframes pulso {
-  0% { box-shadow: 0 0 0 rgba(170,120,255,0); }
-  50% { box-shadow: 0 0 20px rgba(170,120,255,0.3); }
-  100% { box-shadow: 0 0 0 rgba(170,120,255,0); }
-}
-button:hover { transform: scale(1.05); letter-spacing: 2px; border-color: rgba(200,170,255,1); }
-
-/* RESULTADO */
-#resultado { margin-top: 40px; opacity: 0; transition: 1s; }
-.extra { font-style: italic; margin-top: 12px; opacity: 0.7; font-size: 13px; }
-
-/* CONTADOR */
-#contador, #contador-fechado { font-family: 'Playfair Display', serif; font-size: 28px; margin-top: 15px; }
-
-/* GLITCH */
-.glitch { color: #ff00ff; text-shadow: 2px 0 #0ff, -2px 0 #0ff; animation: glitchAnim 0.1s infinite; }
-@keyframes glitchAnim {
-  0% { text-shadow: 2px 0 #0ff, -2px 0 #0ff; }
-  50% { text-shadow: -2px 0 #ff0, 2px 0 #0ff; }
-  100% { text-shadow: 2px 0 #0ff, -2px 0 #0ff; }
-}
-
-/* TREMOR */
-.tremor { animation: tremor 0.05s infinite; }
-@keyframes tremor {
-  0% { transform: translate(0,0) }
-  25% { transform: translate(-2px,2px) }
-  50% { transform: translate(2px,-2px) }
-  75% { transform: translate(-2px,-2px) }
-  100% { transform: translate(0,0) }
-}
-
-/* FLASHES */
-.flash {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: rgba(255,0,255,0.15);
-  top: 0; left: 0;
-  pointer-events: none;
-  z-index: 5;
-  mix-blend-mode: screen;
-  opacity: 0;
-  transition: opacity 0.05s;
-}
-
-/* PORTAL FECHADO */
-#portal-fechado {
-  display: none;
-  height: 100vh;
-  width: 100%;
-  background: black;
-  color: white;
-  font-family: 'Playfair Display', serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 34px;
-  padding: 20px;
-  flex-direction: column;
-}
-
-/* MOBILE */
-@media (max-width:768px){
-  .personagem { position: relative; width: 100%; height: auto; opacity: 1; }
-  .container { padding: 25px 15px; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); }
-  h1 { font-size: 28px; }
-  button { width: 100%; font-size: 14px; padding: 10px 20px; }
-  #contador, #contador-fechado { font-size: 22px; margin-top: 10px; }
-  #portal-fechado { font-size: 26px; }
-}
+body { background: #111; color: #fff; font-size: 18px; line-height: 1.5; padding: 40px; }
+h2 { margin-top: 40px; margin-bottom: 10px; font-size: 32px; }
+p { margin-bottom: 20px; font-size: 18px; }
+.sample { margin-bottom: 30px; padding-bottom: 10px; border-bottom: 1px solid #444; }
 </style>
 </head>
-
 <body>
 
-<!-- PORTAL ABERTO -->
-<div id="portal-aberto">
-  <div class="bg"></div>
-  <div class="overlay"></div>
-  <img src="personagem.jpg" class="personagem" id="personagem">
-  <div class="container">
-    <h1>A CIDADE OBSERVA</h1>
-    <p>Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
-    <button onclick="invocar()">INVOCAR DESCONTO</button>
-    <div id="resultado"></div>
-    <div id="contador"></div>
-  </div>
+<div class="sample">
+<h2 style="font-family:'Playfair Display', serif;">Playfair Display</h2>
+<p style="font-family:'Lora', serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
 </div>
 
-<!-- PORTAL FECHADO -->
-<div id="portal-fechado">
-  <div>O portal ainda não abriu…</div>
-  <div id="contador-fechado"></div>
+<div class="sample">
+<h2 style="font-family:'Cinzel', serif;">Cinzel</h2>
+<p style="font-family:'Merriweather', serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
 </div>
 
-<div class="flash" id="flash"></div>
+<div class="sample">
+<h2 style="font-family:'Cormorant Garamond', serif;">Cormorant Garamond</h2>
+<p style="font-family:'Lora', serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
+</div>
 
-<audio id="som" loop>
-  <source src="https://www.soundjay.com/ambience/city-traffic-1.mp3" type="audio/mpeg">
-</audio>
-<audio id="alerta" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
+<div class="sample">
+<h2 style="font-family:'EB Garamond', serif;">EB Garamond</h2>
+<p style="font-family:'Crimson Pro', serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
+</div>
 
-<script>
-// SOM
-document.body.addEventListener("click", () => {
-  const som = document.getElementById("som");
-  som.volume = 0.2;
-  som.play();
-}, { once: true });
+<div class="sample">
+<h2 style="font-family:'Lora', serif;">Lora</h2>
+<p style="font-family:'Lora', serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
+</div>
 
-// CONFIGURAÇÃO DO PORTAL
-const tempoAberto = 5*60;
-const tempoFechado = 5*60;
-const cicloTotal = tempoAberto + tempoFechado;
+<div class="sample">
+<h2 style="font-family:'Merriweather', serif;">Merriweather</h2>
+<p style="font-family:'Merriweather', serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
+</div>
 
-function calcularEstadoPortal(){
-  const agora = Date.now();
-  let inicioCiclo = localStorage.getItem('inicioCiclo');
-  if(!inicioCiclo){
-    inicioCiclo = agora;
-    localStorage.setItem('inicioCiclo', inicioCiclo);
-  } else {
-    inicioCiclo = parseInt(inicioCiclo);
-  }
+<div class="sample">
+<h2 style="font-family:'Crimson Pro', serif;">Crimson Pro</h2>
+<p style="font-family:'Crimson Pro', serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
+</div>
 
-  let tempoPassado = Math.floor((agora - inicioCiclo)/1000);
-  let tempoNoCiclo = tempoPassado % cicloTotal;
+<div class="sample">
+<h2 style="font-family:'Libre Baskerville', serif;">Libre Baskerville</h2>
+<p style="font-family:'Libre Baskerville', serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
+</div>
 
-  if(tempoNoCiclo < tempoAberto){
-    portalAberto = true;
-    document.getElementById('portal-aberto').style.display = 'block';
-    document.getElementById('portal-fechado').style.display = 'none';
-    iniciarContador(tempoAberto - tempoNoCiclo, 'contador');
-  } else {
-    portalAberto = false;
-    document.getElementById('portal-aberto').style.display = 'none';
-    document.getElementById('portal-fechado').style.display = 'flex';
-    iniciarContador(cicloTotal - tempoNoCiclo, 'contador-fechado');
-  }
+<div class="sample">
+<h2 style="font-family:'Cardo', serif;">Cardo</h2>
+<p style="font-family:'Cardo', serif;">Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
+</div>
 
-  setTimeout(calcularEstadoPortal, 1000);
-}
-
-// CONTADOR COM GLITCH + TREMOR + FLASH
-function iniciarContador(segundos, id){
-  const contadorEl = document.getElementById(id);
-  const alerta = document.getElementById("alerta");
-  const personagem = document.getElementById("personagem");
-  const flash = document.getElementById("flash");
-  let t = segundos;
-
-  clearInterval(contadorEl._interval);
-  contadorEl._interval = setInterval(()=>{
-    let min = Math.floor(t/60), seg = t%60;
-    contadorEl.textContent = `${min.toString().padStart(2,'0')}:${seg.toString().padStart(2,'0')}`;
-
-    if(t<=10){
-      contadorEl.classList.add('glitch','tremor');
-      personagem.style.transform = `translate(${Math.random()*4-2}px,${Math.random()*4-2}px)`;
-      personagem.style.filter = `blur(${Math.random()*2}px)`;
-      flash.style.opacity = Math.random()*0.3;
-      if(t===10) alerta.play();
-    } else {
-      contadorEl.classList.remove('glitch','tremor');
-      personagem.style.transform='';
-      personagem.style.filter='';
-      flash.style.opacity=0;
-    }
-
-    t--; 
-    if(t<0){ clearInterval(contadorEl._interval); contadorEl.classList.remove('glitch','tremor'); personagem.style.transform=''; personagem.style.filter=''; flash.style.opacity=0; }
-  },1000);
-}
-
-// CHANCE DE GANHO
-const chanceDeGanhar = 0.3;
-function invocar(){
-  const hoje = new Date().toDateString();
-  const resultado = document.getElementById("resultado");
-  if(localStorage.getItem("usou")===hoje){
-    resultado.style.opacity=1;
-    resultado.innerHTML=`Você já foi observado hoje.<div class="extra">Dentro de 24 horas tente novamente!</div>`;
-    return;
-  }
-  localStorage.setItem("usou",hoje);
-  if(Math.random()<chanceDeGanhar){
-    const cupom = "SPHT20-"+Math.floor(1000+Math.random()*9000);
-    resultado.style.opacity=1;
-    resultado.innerHTML=`Quem diria! Você foi percebido!<br><br><strong>${cupom}</strong><div class="extra">Chame agora no whats de reservas 11 95651 2412! Você ganhou 20% de desconto na compra de seu ingresso - e de todos os seus acompanhantes - com pagamento via PIX, diretamente na agência. Este cupom NÃO é válido para compras efetuadas na Sympla.</div><br><button onclick="abrirWhats('${cupom}')">CHAMAR NO WHATSAPP</button>`;
-  } else {
-    resultado.style.opacity=1;
-    resultado.innerHTML=`Nenhum contato com o além!<div class="extra">Dentro de 24 horas poderá tentar novamente!</div>`;
-  }
-}
-
-function abrirWhats(cupom){
-  const msg = encodeURIComponent("Olá! Fui contemplado no portal com o cupom "+cupom+" 👁️");
-  window.open("https://wa.me/5511956512412?text="+msg,"_blank");
-}
-
-// INICIAR PORTAL
-calcularEstadoPortal();
-</script>
 </body>
 </html>
