@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-
 body {
   margin: 0;
   background: #1c003b;
@@ -25,12 +24,10 @@ body {
   z-index: -2;
 }
 
-/* LAYOUT BASE */
+/* LAYOUT */
 .wrapper {
   display: flex;
   min-height: 100vh;
-  align-items: center;
-  justify-content: space-between;
 }
 
 /* TEXTO */
@@ -61,7 +58,6 @@ button {
   color: white;
   cursor: pointer;
   letter-spacing: 2px;
-  width: fit-content;
 }
 
 /* RESULTADO */
@@ -71,7 +67,6 @@ button {
   transition: 0.8s;
 }
 
-/* TEXTO EXTRA */
 .extra {
   font-style: italic;
   margin-top: 10px;
@@ -88,28 +83,38 @@ button {
   white-space: nowrap;
 }
 
-/* PERSONAGEM */
+/* PERSONAGEM DESKTOP */
 .personagem {
-  height: 100vh;
-  object-fit: cover;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.personagem img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain; /* NÃO CORTA */
   opacity: 0.9;
 }
 
-/* ========================= */
-/* 📱 MOBILE REAL */
-/* ========================= */
-
+/* MOBILE */
 @media (max-width: 768px){
 
   .wrapper {
     flex-direction: column;
-    justify-content: flex-start;
   }
 
   .personagem {
+    order: -1;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .personagem img {
     width: 100%;
     height: auto;
-    max-height: 45vh;
+    max-height: 40vh;
     object-fit: contain;
   }
 
@@ -122,7 +127,6 @@ button {
 
   h1 {
     font-size: 26px;
-    line-height: 1.2;
   }
 
   p {
@@ -131,32 +135,22 @@ button {
 
   button {
     width: 100%;
-    text-align: center;
   }
 
   #contadorCupom {
-    font-size: 22px;
     text-align: center;
+    font-size: 22px;
   }
-
 }
 
-/* ========================= */
-/* 🖥️ DESKTOP */
-/* ========================= */
-
+/* DESKTOP */
 @media (min-width: 769px){
-
   .wrapper {
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
-
-  .personagem {
-    max-width: 45%;
-  }
-
 }
-
 </style>
 </head>
 
@@ -175,12 +169,14 @@ button {
     <div id="resultado"></div>
   </div>
 
-  <img src="personagem.jpg" class="personagem">
+  <div class="personagem">
+    <img src="personagem.jpg" alt="Personagem">
+  </div>
 
 </div>
 
 <audio id="som" loop>
-<source src="https://www.soundjay.com/ambience/city-traffic-1.mp3" type="audio/mpeg">
+<source src="https://www.soundjay.com/ambience/city-traffic-1.mp3">
 </audio>
 
 <script>
@@ -243,11 +239,8 @@ function mostrarCupom(cupom){
   <strong>${cupom}</strong>
 
   <div class="extra">
-  O portal abriu uma passagem rara.<br><br>
-
   ⚠️ Use nas próximas <strong>2 horas</strong>.<br>
   Depois disso, pode desaparecer.<br><br>
-
   Pode durar até 48h... mas não confie nisso.
   </div>
 
