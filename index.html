@@ -16,7 +16,6 @@ body {
   overflow-x: hidden;
 }
 
-/* FUNDO */
 .bg {
   position: fixed;
   width: 100%;
@@ -25,7 +24,6 @@ body {
   z-index: -3;
 }
 
-/* OVERLAY */
 .overlay {
   position: fixed;
   width: 100%;
@@ -34,76 +32,29 @@ body {
   z-index: -2;
 }
 
-/* PERSONAGEM */
 .personagem {
   position: fixed;
   right: 0;
   bottom: 0;
   height: 100%;
   opacity: 0.9;
-  animation: respirar 7s ease-in-out infinite;
 }
 
-@keyframes respirar {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.01); }
-  100% { transform: scale(1); }
-}
-
-/* CONTEÚDO */
 .container {
   padding: 140px 80px;
   max-width: 520px;
-  word-break: break-word;
-  line-height: 1.5;
 }
 
-/* TÍTULOS */
 h1 {
   font-family: 'Heebo', sans-serif;
   font-size: 40px;
   letter-spacing: 2px;
-  margin-bottom: 20px;
 }
 
 p {
-  font-size: 16px;
   opacity: 0.8;
-  line-height: 1.6;
 }
 
-/* CONTADOR (CORRIGIDO) */
-#contador, #contadorFechado {
-  font-family: 'Heebo', sans-serif;
-  font-size: 28px;
-  margin: 15px 0 25px 0;
-  letter-spacing: 2px;
-  color: #d0aaff;
-  text-align: center;
-  display: block;
-
-  /* 🔥 CORREÇÕES PRINCIPAIS */
-  white-space: nowrap; /* impede quebra vertical */
-  font-variant-numeric: tabular-nums; /* números estáveis */
-}
-
-/* EFEITO GLITCH */
-.glitch {
-  color: #ff77ff;
-  text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
-  animation: glitchAnim 0.3s infinite;
-}
-
-@keyframes glitchAnim {
-  0% { transform: translate(0,0); }
-  20% { transform: translate(-2px,2px); }
-  40% { transform: translate(2px,-2px); }
-  60% { transform: translate(-1px,1px); }
-  80% { transform: translate(1px,-1px); }
-  100% { transform: translate(0,0); }
-}
-
-/* BOTÃO */
 button {
   margin-top: 20px;
   padding: 12px 28px;
@@ -111,24 +62,8 @@ button {
   border: 1px solid rgba(170,120,255,0.6);
   color: white;
   cursor: pointer;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  animation: pulso 3s infinite;
 }
 
-@keyframes pulso {
-  0% { box-shadow: 0 0 0 rgba(170,120,255,0); }
-  50% { box-shadow: 0 0 20px rgba(170,120,255,0.3); }
-  100% { box-shadow: 0 0 0 rgba(170,120,255,0); }
-}
-
-button:hover {
-  transform: scale(1.08);
-  letter-spacing: 3px;
-  border-color: rgba(200,170,255,1);
-}
-
-/* RESULTADO */
 #resultado {
   margin-top: 30px;
   opacity: 0;
@@ -139,75 +74,16 @@ button:hover {
   font-style: italic;
   margin-top: 10px;
   opacity: 0.7;
-  font-size: 14px;
 }
 
-/* MOBILE */
-@media (max-width:768px){
-  .personagem {
-    position: relative;
-    width: 100%;
-    height: auto;
-    opacity: 1;
-  }
-
-  .container {
-    padding: 20px 15px;
-    background: rgba(28,0,59,0.85);
-    backdrop-filter: blur(6px);
-  }
-
-  h1 {
-    font-size: 28px;
-    line-height: 1.2;
-  }
-
-  p {
-    font-size: 14px;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  #contador, #contadorFechado {
-    font-size: 22px;
-  }
-
-  /* PORTAL FECHADO CENTRALIZADO */
-  #portalFechado {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    text-align: center;
-  }
-}
-
-/* DESKTOP */
-@media (min-width:769px){
-  #contador, #contadorFechado {
-    text-align: left;
-  }
-
-  /* GARANTE ORDEM: TEXTO → CONTADOR */
-  #portalFechado {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  #portalFechado p {
-    margin-bottom: 10px;
-  }
-
-  #contadorFechado {
-    margin-top: 10px;
-  }
+#contadorCupom {
+  font-size: 26px;
+  color: #d0aaff;
+  letter-spacing: 2px;
 }
 </style>
 </head>
+
 <body>
 
 <div class="bg"></div>
@@ -215,20 +91,13 @@ button:hover {
 
 <img src="personagem.jpg" class="personagem">
 
-<!-- PORTAL ABERTO -->
-<div class="container" id="portalAberto">
+<div class="container">
 <h1>A CIDADE OBSERVA</h1>
-<p>Nem tudo em São Paulo pode ser conquistado. Arrisque sua sorte. Mentalize. Toque no botão do portal. Quem sabe o fantasma perceba e te permita ultrapassar.</p>
-<div id="contador"></div>
-<button onclick="invocar()">INVOCAR DESCONTO</button>
-<div id="resultado"></div>
-</div>
+<p>Arrisque sua sorte. O portal não se abre para todos.</p>
 
-<!-- PORTAL FECHADO -->
-<div class="container" id="portalFechado" style="display:none;">
-<h1>O PORTAL ESTÁ FECHADO</h1>
-<p>Volte em breve para tentar atravessar o portal e conquistar seu desconto!</p>
-<div id="contadorFechado"></div>
+<button onclick="invocar()">INVOCAR DESCONTO</button>
+
+<div id="resultado"></div>
 </div>
 
 <audio id="som" loop>
@@ -236,6 +105,7 @@ button:hover {
 </audio>
 
 <script>
+
 // SOM
 document.body.addEventListener("click", () => {
   const som = document.getElementById("som");
@@ -243,92 +113,137 @@ document.body.addEventListener("click", () => {
   som.play();
 }, { once: true });
 
-// TEMPO FIXO
-const cicloAberto = 5*60;
-const cicloFechado = 5*60;
-const cicloTotal = cicloAberto + cicloFechado;
+// INVOCAR
+function invocar(){
 
-// ELEMENTOS
-const contador = document.getElementById("contador");
-const contadorFechado = document.getElementById("contadorFechado");
-const portalAbertoDiv = document.getElementById("portalAberto");
-const portalFechadoDiv = document.getElementById("portalFechado");
+  const hoje = new Date().toDateString();
+  const resultado = document.getElementById("resultado");
 
-// FORMATAR TEMPO
-function formatarTempo(segundos){
-  const m = Math.floor(segundos/60).toString().padStart(2,'0');
-  const s = (segundos%60).toString().padStart(2,'0');
-  return `${m}:${s}`;
-}
+  if(localStorage.getItem("usou")===hoje){
+    resultado.style.opacity=1;
+    resultado.innerHTML = `
+    Você já foi observado hoje.
+    <div class="extra">
+    Dentro de 24 horas tente novamente!
+    </div>`;
+    return;
+  }
 
-// ATUALIZA PORTAL
-function atualizarPortal(){
-  const agora = Date.now();
-  const segundosTotais = Math.floor(agora/1000);
-  const cicloAtual = segundosTotais % cicloTotal;
-  const aberto = cicloAtual < cicloAberto;
-  const restante = aberto ? cicloAberto - cicloAtual : cicloTotal - cicloAtual;
+  localStorage.setItem("usou",hoje);
 
-  portalAbertoDiv.style.display = aberto ? "block" : "none";
-  portalFechadoDiv.style.display = aberto ? "none" : "flex";
+  // 🔥 60% DE CHANCE
+  if(Math.random()<0.6){
 
-  const cont = aberto ? contador : contadorFechado;
-  cont.innerText = formatarTempo(restante);
+    const cupom = "SPHT20-" + Math.floor(1000+Math.random()*9000);
 
-  if(restante <= 10){
-    cont.classList.add("glitch");
+    const agora = Date.now();
+    const expiraRapido = agora + (2 * 60 * 60 * 1000);
+    const expiraTotal = agora + (48 * 60 * 60 * 1000);
+
+    localStorage.setItem("cupom", cupom);
+    localStorage.setItem("expiraRapido", expiraRapido);
+    localStorage.setItem("expiraTotal", expiraTotal);
+
+    mostrarCupom(cupom);
+
   } else {
-    cont.classList.remove("glitch");
+
+    resultado.style.opacity=1;
+    resultado.innerHTML=`
+    Nenhum contato com o além!
+    <div class="extra">
+    Após 24 horas poderá tentar novamente!
+    </div>`;
   }
 }
 
-setInterval(atualizarPortal,1000);
+// MOSTRAR CUPOM
+function mostrarCupom(cupom){
 
-// INVOCAR
-function invocar(){
-const hoje = new Date().toDateString();
-const resultado = document.getElementById("resultado");
-
-if(localStorage.getItem("usou")===hoje){
-  resultado.style.opacity=1;
-  resultado.innerHTML = `
-  Você já foi observado hoje.
-  <div class="extra">
-  Após 24 horas tente novamente!
-  </div>`;
-  return;
-}
-
-localStorage.setItem("usou",hoje);
-
-if(Math.random()<0.8){
-  const cupom = "SPHT20-" + Math.floor(1000+Math.random()*9000);
+  const resultado = document.getElementById("resultado");
 
   resultado.style.opacity=1;
   resultado.innerHTML=`
-  Quem diria! Você foi percebido!<br><br>
+  Quem diria... você foi percebido.<br><br>
+
   <strong>${cupom}</strong>
+
   <div class="extra">
-  Chame agora no WhatsApp 11 95651 2412!
+  O portal abriu uma passagem rara.<br><br>
+
+  ⚠️ Use este código nas próximas <strong>2 horas</strong> para garantir o desconto.<br>
+  Depois disso, ele pode desaparecer sem aviso.<br><br>
+
+  Se ainda estiver ativo, poderá funcionar por até 48 horas...<br>
+  mas o portal nem sempre é generoso duas vezes.
   </div>
+
   <br>
-  <button onclick="abrirWhats('${cupom}')">CHAMAR NO WHATSAPP</button>`;
-}else{
-  resultado.style.opacity=1;
-  resultado.innerHTML=`
-  Nenhum contato com o além!
-  <div class="extra">
-  Após 24 horas poderá tentar novamente!
-  </div>`;
-}
+  <div id="contadorCupom"></div>
+  <br>
+
+  <button onclick="abrirWhats('${cupom}')">ACESSAR AGORA</button>
+  `;
+
+  iniciarContadorCupom();
 }
 
+// CONTADOR
+function iniciarContadorCupom(){
+
+  const el = document.getElementById("contadorCupom");
+
+  function atualizar(){
+
+    const agora = Date.now();
+    const expiraRapido = parseInt(localStorage.getItem("expiraRapido"));
+    const expiraTotal = parseInt(localStorage.getItem("expiraTotal"));
+
+    if(!expiraRapido || !expiraTotal) return;
+
+    let restante = expiraRapido - agora;
+
+    if(restante > 0){
+
+      const m = Math.floor(restante/60000);
+      const s = Math.floor((restante%60000)/1000);
+
+      el.innerHTML = `⏳ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+    } else if (agora < expiraTotal){
+
+      el.innerHTML = `⚠️ O portal está instável... o cupom pode desaparecer.`;
+
+    } else {
+
+      el.innerHTML = `❌ O portal se fechou.`;
+      localStorage.removeItem("cupom");
+    }
+  }
+
+  setInterval(atualizar,1000);
+}
+
+// WHATS
 function abrirWhats(cupom){
   const msg = encodeURIComponent(
     "Olá! Fui contemplado no portal com o cupom "+cupom+" 👁️"
   );
   window.open("https://wa.me/5511956512412?text="+msg,"_blank");
 }
+
+// RECUPERAR SE VOLTAR
+window.onload = function(){
+
+  const cupom = localStorage.getItem("cupom");
+  const expiraTotal = localStorage.getItem("expiraTotal");
+
+  if(cupom && expiraTotal && Date.now() < expiraTotal){
+    mostrarCupom(cupom);
+  }
+
+};
+
 </script>
 
 </body>
