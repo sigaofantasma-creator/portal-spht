@@ -8,96 +8,175 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
+
 body {
   margin: 0;
   background: #1c003b;
   font-family: 'Inter', sans-serif;
   color: white;
-  overflow-x: hidden;
 }
 
+/* FUNDO */
 .bg {
   position: fixed;
   width: 100%;
   height: 100%;
   background: radial-gradient(circle at bottom, rgba(120,80,255,0.08), #1c003b 70%);
-  z-index: -3;
-}
-
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, #1c003b 55%, rgba(0,0,0,0.2));
   z-index: -2;
 }
 
-.personagem {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  opacity: 0.9;
+/* LAYOUT BASE */
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: space-between;
 }
 
+/* TEXTO */
 .container {
-  padding: 140px 80px;
+  padding: 80px;
   max-width: 520px;
+  z-index: 2;
 }
 
 h1 {
   font-family: 'Heebo', sans-serif;
   font-size: 40px;
   letter-spacing: 2px;
+  margin-bottom: 20px;
 }
 
 p {
-  opacity: 0.8;
+  opacity: 0.85;
+  line-height: 1.6;
 }
 
+/* BOTÃO */
 button {
   margin-top: 20px;
-  padding: 12px 28px;
+  padding: 14px 28px;
   background: transparent;
   border: 1px solid rgba(170,120,255,0.6);
   color: white;
   cursor: pointer;
+  letter-spacing: 2px;
+  width: fit-content;
 }
 
+/* RESULTADO */
 #resultado {
   margin-top: 30px;
   opacity: 0;
-  transition: 1s;
+  transition: 0.8s;
 }
 
+/* TEXTO EXTRA */
 .extra {
   font-style: italic;
   margin-top: 10px;
   opacity: 0.7;
+  font-size: 14px;
 }
 
+/* CONTADOR */
 #contadorCupom {
+  font-family: 'Heebo';
   font-size: 26px;
   color: #d0aaff;
-  letter-spacing: 2px;
+  margin-top: 10px;
+  white-space: nowrap;
 }
+
+/* PERSONAGEM */
+.personagem {
+  height: 100vh;
+  object-fit: cover;
+  opacity: 0.9;
+}
+
+/* ========================= */
+/* 📱 MOBILE REAL */
+/* ========================= */
+
+@media (max-width: 768px){
+
+  .wrapper {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .personagem {
+    width: 100%;
+    height: auto;
+    max-height: 45vh;
+    object-fit: contain;
+  }
+
+  .container {
+    padding: 25px 20px;
+    max-width: 100%;
+    background: rgba(28,0,59,0.85);
+    backdrop-filter: blur(6px);
+  }
+
+  h1 {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  button {
+    width: 100%;
+    text-align: center;
+  }
+
+  #contadorCupom {
+    font-size: 22px;
+    text-align: center;
+  }
+
+}
+
+/* ========================= */
+/* 🖥️ DESKTOP */
+/* ========================= */
+
+@media (min-width: 769px){
+
+  .wrapper {
+    flex-direction: row;
+  }
+
+  .personagem {
+    max-width: 45%;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="bg"></div>
-<div class="overlay"></div>
 
-<img src="personagem.jpg" class="personagem">
+<div class="wrapper">
 
-<div class="container">
-<h1>A CIDADE OBSERVA</h1>
-<p>Arrisque sua sorte. O portal não se abre para todos.</p>
+  <div class="container">
+    <h1>A CIDADE OBSERVA</h1>
+    <p>Arrisque sua sorte. O portal não se abre para todos.</p>
 
-<button onclick="invocar()">INVOCAR DESCONTO</button>
+    <button onclick="invocar()">INVOCAR DESCONTO</button>
 
-<div id="resultado"></div>
+    <div id="resultado"></div>
+  </div>
+
+  <img src="personagem.jpg" class="personagem">
+
 </div>
 
 <audio id="som" loop>
@@ -123,15 +202,12 @@ function invocar(){
     resultado.style.opacity=1;
     resultado.innerHTML = `
     Você já foi observado hoje.
-    <div class="extra">
-    Dentro de 24 horas tente novamente!
-    </div>`;
+    <div class="extra">Dentro de 24 horas tente novamente!</div>`;
     return;
   }
 
   localStorage.setItem("usou",hoje);
 
-  // 🔥 60% DE CHANCE
   if(Math.random()<0.6){
 
     const cupom = "SPHT20-" + Math.floor(1000+Math.random()*9000);
@@ -151,9 +227,7 @@ function invocar(){
     resultado.style.opacity=1;
     resultado.innerHTML=`
     Nenhum contato com o além!
-    <div class="extra">
-    Após 24 horas poderá tentar novamente!
-    </div>`;
+    <div class="extra">Após 24 horas poderá tentar novamente!</div>`;
   }
 }
 
@@ -171,16 +245,13 @@ function mostrarCupom(cupom){
   <div class="extra">
   O portal abriu uma passagem rara.<br><br>
 
-  ⚠️ Use este código nas próximas <strong>2 horas</strong> para garantir o desconto.<br>
-  Depois disso, ele pode desaparecer sem aviso.<br><br>
+  ⚠️ Use nas próximas <strong>2 horas</strong>.<br>
+  Depois disso, pode desaparecer.<br><br>
 
-  Se ainda estiver ativo, poderá funcionar por até 48 horas...<br>
-  mas o portal nem sempre é generoso duas vezes.
+  Pode durar até 48h... mas não confie nisso.
   </div>
 
-  <br>
   <div id="contadorCupom"></div>
-  <br>
 
   <button onclick="abrirWhats('${cupom}')">ACESSAR AGORA</button>
   `;
@@ -212,11 +283,11 @@ function iniciarContadorCupom(){
 
     } else if (agora < expiraTotal){
 
-      el.innerHTML = `⚠️ O portal está instável... o cupom pode desaparecer.`;
+      el.innerHTML = `⚠️ Instável... pode desaparecer.`;
 
     } else {
 
-      el.innerHTML = `❌ O portal se fechou.`;
+      el.innerHTML = `❌ Portal fechado.`;
       localStorage.removeItem("cupom");
     }
   }
@@ -227,12 +298,12 @@ function iniciarContadorCupom(){
 // WHATS
 function abrirWhats(cupom){
   const msg = encodeURIComponent(
-    "Olá! Fui contemplado no portal com o cupom "+cupom+" 👁️"
+    "Olá! Ganhei o cupom "+cupom+" 👁️"
   );
   window.open("https://wa.me/5511956512412?text="+msg,"_blank");
 }
 
-// RECUPERAR SE VOLTAR
+// RECUPERAR
 window.onload = function(){
 
   const cupom = localStorage.getItem("cupom");
