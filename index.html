@@ -24,6 +24,29 @@ body {
   z-index: -2;
 }
 
+/* BLOQUEIO TELA PRETA */
+#bloqueioTela {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  color: white;
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+#bloqueioTela h1 {
+  font-family: 'Heebo';
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
 /* LAYOUT */
 .wrapper {
   display: flex;
@@ -83,7 +106,7 @@ button {
   white-space: nowrap;
 }
 
-/* PERSONAGEM DESKTOP */
+/* PERSONAGEM */
 .personagem {
   flex: 1;
   display: flex;
@@ -94,67 +117,40 @@ button {
 .personagem img {
   max-width: 100%;
   max-height: 90vh;
-  object-fit: contain; /* NÃO CORTA */
+  object-fit: contain;
   opacity: 0.9;
 }
 
 /* MOBILE */
 @media (max-width: 768px){
-
-  .wrapper {
-    flex-direction: column;
-  }
-
-  .personagem {
-    order: -1;
-    width: 100%;
-    padding: 10px;
-  }
-
-  .personagem img {
-    width: 100%;
-    height: auto;
-    max-height: 40vh;
-    object-fit: contain;
-  }
-
+  .wrapper { flex-direction: column; }
+  .personagem { order: -1; width: 100%; padding: 10px; }
+  .personagem img { width: 100%; max-height: 40vh; }
   .container {
     padding: 25px 20px;
-    max-width: 100%;
     background: rgba(28,0,59,0.85);
     backdrop-filter: blur(6px);
   }
-
-  h1 {
-    font-size: 26px;
-  }
-
-  p {
-    font-size: 14px;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  #contadorCupom {
-    text-align: center;
-    font-size: 22px;
-  }
-}
-
-/* DESKTOP */
-@media (min-width: 769px){
-  .wrapper {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
+  h1 { font-size: 26px; }
+  button { width: 100%; }
 }
 </style>
 </head>
 
 <body>
+
+<div id="bloqueioTela">
+  <div>
+    <h1>⛔ O PORTAL NÃO RESPONDE</h1>
+    <p>
+      Você tentou acessar fora do período permitido.<br><br>
+      O portal de descontos só se manifesta<br>
+      de <strong>segunda a sexta</strong>,<br>
+      entre <strong>9h e 18h</strong>.<br><br>
+      Retorne nesse intervalo... se for digno.
+    </p>
+  </div>
+</div>
 
 <div class="bg"></div>
 
@@ -181,6 +177,14 @@ button {
 
 <script>
 
+// HORÁRIO
+function dentroDoHorario(){
+  const agora = new Date();
+  const dia = agora.getDay();
+  const hora = agora.getHours();
+  return (dia >= 1 && dia <= 5 && hora >= 9 && hora < 18);
+}
+
 // SOM
 document.body.addEventListener("click", () => {
   const som = document.getElementById("som");
@@ -191,8 +195,15 @@ document.body.addEventListener("click", () => {
 // INVOCAR
 function invocar(){
 
-  const hoje = new Date().toDateString();
   const resultado = document.getElementById("resultado");
+
+  // BLOQUEIO COM TELA PRETA
+  if(!dentroDoHorario()){
+    document.getElementById("bloqueioTela").style.display = "flex";
+    return;
+  }
+
+  const hoje = new Date().toDateString();
 
   if(localStorage.getItem("usou")===hoje){
     resultado.style.opacity=1;
@@ -240,7 +251,6 @@ function mostrarCupom(cupom){
 
   <div class="extra">
   ⚠️ Use nas próximas <strong>2 horas</strong>.<br>
-  Depois disso, pode desaparecer.<br><br>
   Pode durar até 48h... mas não confie nisso.
   </div>
 
@@ -268,18 +278,12 @@ function iniciarContadorCupom(){
     let restante = expiraRapido - agora;
 
     if(restante > 0){
-
       const m = Math.floor(restante/60000);
       const s = Math.floor((restante%60000)/1000);
-
       el.innerHTML = `⏳ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-
     } else if (agora < expiraTotal){
-
       el.innerHTML = `⚠️ Instável... pode desaparecer.`;
-
     } else {
-
       el.innerHTML = `❌ Portal fechado.`;
       localStorage.removeItem("cupom");
     }
@@ -291,21 +295,19 @@ function iniciarContadorCupom(){
 // WHATS
 function abrirWhats(cupom){
   const msg = encodeURIComponent(
-    "Olá! Ganhei o cupom "+cupom+" 👁️O que faço agora? Vou te explicar sobre o cupom: se comprar na Sympla o ingresso custa R$126,50 p/pessoa, incluídas as taxas da plataforma; se comprar conosco aqui no whats da agência custa R$115 p/pessoa, mas somente com pagamento via PIX; se conseguiu o CUPOM de 20% de desconto custa R$ 92 p/pessoa, também somente com pagamento via PIX; seu CUPOM VALE por 48 horas a partir de agora e o desconto se estende a todos do seu grupo. Lembre-se: não há nenhuma outra forma de desconto vigente. Aproveite! Você tem 48 horas para realizar a compra. Só chamar aqui no whats digitando seu nome e informando dia e horário que deseja ir ao SPHT e um humano irá te atender!"
+    "Olá! Ganhei o cupom "+cupom+" 👁️ Quero usar meu desconto!"
   );
   window.open("https://wa.me/5511956512412?text="+msg,"_blank");
 }
 
 // RECUPERAR
 window.onload = function(){
-
   const cupom = localStorage.getItem("cupom");
   const expiraTotal = localStorage.getItem("expiraTotal");
 
   if(cupom && expiraTotal && Date.now() < expiraTotal){
     mostrarCupom(cupom);
   }
-
 };
 
 </script>
